@@ -1,0 +1,151 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id     Int    @id @default(autoincrement())
+  email  String @unique
+  name   String
+  avatar String @default("default.jpg")
+  password String @db.VarChar(255)
+
+  sessions  Session[]
+  professor Professor?
+  student   Student?
+  admin Admin?
+
+  @@map("users")
+}
+
+model Admin {
+  id Int @id @default(autoincrement())
+
+  userId Int @unique @map("user_id")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("admins")
+}
+
+model Professor {
+  id Int @id @default(autoincrement())
+
+  userId Int @unique @map("user_id")
+
+  posts      Post[]
+  classrooms Classroom[]
+  user       User        @relation(fields: [userId], references: [id])
+
+  @@map("professors")
+}
+
+model Student {
+  id     Int @id @default(autoincrement())
+  userId Int @unique @map("user_id")
+
+  classrooms Classroom[]
+  user       User        @relation(fields: [userId], references: [id])
+
+  @@map("students")
+}
+
+model Session {
+  id           Int      @id @default(autoincrement())
+  userId       Int      @map("user_id")
+  refreshToken String   @map("refresh_token")
+  userAgent    String   @map("user_agent")
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("sessions")
+}
+
+model Department {
+  id   Int    @id @default(autoincrement())
+  name String
+  type String @default("OAS")
+
+  subjects Subject[]
+
+  @@map("departments")
+}
+
+model Subject {
+  id           Int    @id @default(autoincrement())
+  name         String
+  departmentId Int    @map("department_id")
+  semester Int
+
+  department Department  @relation(fields: [departmentId], references: [id])
+  classrooms Classroom[]
+
+  @@map("subjects")
+}
+
+model Classroom {
+  id        Int      @id @default(autoincrement())
+  name String 
+  professorId Int      @map("professor_id")
+  subjectId Int      @map("subject_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  posts     Post[]
+  students  Student[]
+  subject   Subject   @relation(fields: [subjectId], references: [id])
+  professor Professor @relation(fields: [professorId], references: [id])
+
+  @@map("classrooms")
+}
+
+model Post {
+  id          Int      @id @default(autoincrement())
+  type        ETypes   @default(text)
+  title       String   @db.VarChar(255)
+  body        String?  @db.MediumText
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @map("updated_at")
+  classroomId Int      @map("classsroom_id")
+  professorId Int      @map("professor_id")
+
+  files     File[]
+  professor Professor @relation(fields: [professorId], references: [id])
+  classroom Classroom @relation(fields: [classroomId], references: [id])
+
+  @@map("posts")
+}
+
+model File {
+  id       Int    @id @default(autoincrement())
+  path     String
+  original String
+  postId   Int    @map("post_id")
+
+  post Post @relation(fields: [postId], references: [id])
+
+  @@map("files")
+}
+
+enum ETypes {
+  text
+  file
+  announcement
+}
+
+enum ERoles {
+  admin
+  professor
+  user
+}
