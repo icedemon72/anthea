@@ -14,10 +14,23 @@ export const departmentStore = async (data: any) => {
 	return department;
 }
 
-export const departmentUpdate = async (department_id: number, data: any) => {
+export const departmentUpdate = async (data: any, id: number) => {
+	const department = await prisma.department.update({
+		where: {
+			id
+		},
+		data
+	});
 
+	return department;
 }
 
-export const departmentDelete = async (department_id: number) => {
-	
+export const departmentDelete = async (id: number) => {
+	const department = await prisma.department.delete({
+		where: {
+			id
+		}
+	});
+
+	return { message: 'Odsek je uspešno obrisan' };
 }

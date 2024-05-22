@@ -1,11 +1,22 @@
 import prisma from "../../prisma/client";
+import { newError } from "../utils";
 
 export const postIndex = async () => {
-
+	const posts = await prisma.post.findMany();
+	
+	return posts;
 }
 
-export const postShow = async () => {
-	
+export const postShow = async (id: number) => {
+	const post = await prisma.post.findFirst({
+		where: {
+			id
+		}
+	});
+
+	if(!post) throw newError(404, 'Objava ne postoji');
+
+	return post;
 }
 
 export const postStore = async (data: any, classroom: number) => {
@@ -40,10 +51,23 @@ export const postStore = async (data: any, classroom: number) => {
 	return post;
 }
 
-export const postUpdate = async () => {
+export const postUpdate = async (data: any, id: number) => {
+	const post = await prisma.post.update({
+		where: {
+			id
+		},
+		data
+	});
 
+	return post;
 }
 
-export const postDelete = async () => {
-	
+export const postDelete = async (id: number) => {
+	const post = await prisma.post.delete({
+		where: {
+			id
+		}
+	});
+
+	return { message: 'Objava je uspešno obrisana' };
 }

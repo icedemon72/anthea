@@ -14,16 +14,16 @@ datasource db {
 }
 
 model User {
-  id     Int    @id @default(autoincrement())
-  email  String @unique
-  name   String
-  avatar String @default("default.jpg")
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  name     String
+  avatar   String @default("default.jpg")
   password String @db.VarChar(255)
 
   sessions  Session[]
   professor Professor?
   student   Student?
-  admin Admin?
+  admin     Admin?
 
   @@map("users")
 }
@@ -43,9 +43,10 @@ model Professor {
 
   userId Int @unique @map("user_id")
 
-  posts      Post[]
-  classrooms Classroom[]
-  user       User        @relation(fields: [userId], references: [id])
+  posts             Post[]
+  classrooms        Classroom[]
+  createdClassrooms Classroom[] @relation("classroom_professor_created")
+  user              User        @relation(fields: [userId], references: [id])
 
   @@map("professors")
 }
@@ -87,7 +88,7 @@ model Subject {
   id           Int    @id @default(autoincrement())
   name         String
   departmentId Int    @map("department_id")
-  semester Int
+  semester     Int
 
   department Department  @relation(fields: [departmentId], references: [id])
   classrooms Classroom[]
@@ -97,15 +98,17 @@ model Subject {
 
 model Classroom {
   id        Int      @id @default(autoincrement())
-  name String 
-  professorId Int      @map("professor_id")
+  name      String
   subjectId Int      @map("subject_id")
   createdAt DateTime @default(now()) @map("created_at")
+  createdBy Int      @map("created_by")
+  code      String   @db.VarChar(6)
 
-  posts     Post[]
-  students  Student[]
-  subject   Subject   @relation(fields: [subjectId], references: [id])
-  professor Professor @relation(fields: [professorId], references: [id])
+  posts      Post[]
+  students   Student[]
+  subject    Subject     @relation(fields: [subjectId], references: [id])
+  professor  Professor   @relation(name: "classroom_professor_created", fields: [createdBy], references: [id])
+  professors Professor[]
 
   @@map("classrooms")
 }
@@ -142,10 +145,4 @@ enum ETypes {
   text
   file
   announcement
-}
-
-enum ERoles {
-  admin
-  professor
-  user
 }

@@ -1,6 +1,7 @@
 import prisma from "../../prisma/client";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { newError } from "../utils";
 
 export const loginUser = async (email: string, password: string, userAgent: string) => {
 	const user = await prisma.user.findUnique({
@@ -67,9 +68,11 @@ export const refreshAccessToken = async (refreshToken: string, userAgent: string
 	try {
 		const expiresIn = process.env.TOKEN_EXPIRE as string;
 		
-		let session = await prisma.session.findFirstOrThrow({
+		let session = await prisma.session.findFirst({
 			where: { refreshToken, userAgent }
 		});
+
+		if(!session) throw newError(409, 'Sesija ne postoji!');
 		
 		let decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET as string);
 

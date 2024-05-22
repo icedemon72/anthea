@@ -1,11 +1,33 @@
 import express from 'express';
 import { handleSubjectDelete, handleSubjectIndex, handleSubjectStore, handleSubjectUpdate } from '../controllers/subject.controller';
+import { validateSubject } from '../validators/subject.validator';
+import { validateParams } from '../validators/validator';
 
 const router = express.Router({mergeParams: true});
 
-router.post('/', handleSubjectStore);
+// Subject store
+router.post(
+	'/', 
+	validateSubject,
+	handleSubjectStore
+);
+
+// Subject index
 router.get('/', handleSubjectIndex);
-router.patch('/:subject', handleSubjectUpdate);
-router.delete('/:subject', handleSubjectDelete);
+
+// Subject update
+router.patch(
+	'/:subject', 
+	validateParams('subject'),
+	validateSubject,
+	handleSubjectUpdate
+);
+
+// Subject delete
+router.delete(
+	'/:subject', 
+	validateParams('subject'),
+	handleSubjectDelete
+);
 
 export { router as subjectRouter };
