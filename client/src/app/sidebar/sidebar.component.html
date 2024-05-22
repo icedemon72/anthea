@@ -1,0 +1,37 @@
+<div class="w-[280px] h-screen bg-white overflow-y-auto">
+	<div class="flex flex-col justify-between p-5 h-full">
+		<div class="">
+			<div class="flex justify-center">
+				<h1 class="text-2xl font-black text-anthea-800">Anthea</h1>
+			</div>
+
+			<div class="nav mt-5">
+				<div class="">
+					<p class="p-3 text-muted uppercase font-bold text-xs">Pregled</p>
+					<ul>
+						<app-item name="Početna" icon="heroHome" active/>
+						<app-item name="Pridruži se" icon="heroSquaresPlus"/>
+						<app-item name="Moje učionice" icon="heroSquares2x2"/>
+						<app-item name="Arhiva" icon="heroArchiveBox"/>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="">
+			<p class="p-3 text-muted uppercase font-bold text-xs">Sesija</p>
+			<ul>
+				<app-item name="Nalog" icon="heroUserCircle" />
+
+
+				<li class="text-red-500 my-2 border-anthea-300 transition-all hover:bg-red-500 rounded-lg hover:text-white">
+					<div class="nav-item active flex items-center gap-3 p-3 cursor-pointer rounded-2xl ">
+						<ng-icon size="20px" strokeWidth="2px" name="heroArrowLeftStartOnRectangle"></ng-icon>
+						<p>Odjavi se</p>
+					</div>
+				</li>
+
+			</ul>
+		</div>
+	</div>
+</div>

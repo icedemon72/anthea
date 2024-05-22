@@ -1,0 +1,35 @@
+<div class="h-screen w-screen flex">
+
+	<div class="w-full md:w-1/2 bg-mosaic-pattern md:bg-none bg-cover flex flex-col justify-center items-center  md:block ">
+
+		<div class="w-11/12 pt-10 pb-12 md:w-full bg-white rounded-lg md:rounded-none h-auto md:h-screen flex flex-col justify-center items-center md:pb-12">
+			<div class="text-start mb-12 w-3/4">
+				<h1 class="text-anthea-900 text-2xl font-black">Anthea</h1>
+			</div>
+			<div class="w-3/4">
+				<div class="">
+					<h1 class="text-3xl font-black">Uloguj se</h1>
+					<p class="text-muted mt-2 text-sm">Nemaš nalog? <a class="font-semibold text-royal-blue-600 hover:underline transition-all" href="#">Registruj se</a></p>
+				</div>
+				<form class="mt-5" [formGroup]="loginForm" (ngSubmit)="onSubmit()" >
+					<div>
+						<label for="email" class="block mb-2 text-sm font-medium text-gray-900">E-adresa</label>
+						<input type="text" id="email" formControlName="email" name="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-royal-blue-500 focus:border-royal-blue-500 block w-full p-2.5" placeholder="primer@aelita.com" required />
+					</div>
+					<div class="mt-4">
+						<label for="password" class="block mb-2 text-sm font-medium text-gray-900">Lozinka</label>
+						<input type="password" formControlName="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-royal-blue-500 focus:border-royal-blue-500 block w-full p-2.5" placeholder="•••••••" required />
+					</div>
+					<div class="mt-8">
+						<button class="p-2 w-full bg-royal-blue-600 text-white rounded-lg hover:bg-royal-blue-400 transition-all active:scale-95">Uloguj se</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+	<div class="hidden md:block md:w-1/2 lg:w-3/4 bg-mosaic-pattern bg-cover">
+<!--		<img src="/assets/img/mosaic.jpg" class="w-full h-full"  alt="Mosaic" />-->
+	</div>
+
+</div>
