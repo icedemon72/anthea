@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {SidebarComponent} from "./sidebar/sidebar.component";
+import {SidebarComponent} from "./components/sidebar/sidebar.component";
 import {NgIconComponent, provideIcons} from "@ng-icons/core";
 import {
 	heroHome,
@@ -10,11 +10,14 @@ import {
 } from "@ng-icons/heroicons/outline";
 import { UserComponent } from './layouts/user/user.component';
 import { GuestComponent } from './layouts/guest/guest.component';
+import {AsyncPipe, NgSwitch, NgSwitchCase} from "@angular/common";
+import {PageLayout} from "./layouts/PageLayout";
+import {PageLayoutService} from "./layouts/page-layout.service";
 
 @Component({
 	selector: 'app-root',
 	standalone: true,
-	imports: [RouterOutlet, UserComponent, GuestComponent, NgIconComponent],
+	imports: [RouterOutlet, UserComponent, GuestComponent, NgIconComponent, NgSwitch, AsyncPipe, NgSwitchCase],
 	providers: [provideIcons(
 {
 		heroHome,
@@ -25,8 +28,8 @@ import { GuestComponent } from './layouts/guest/guest.component';
 		heroArchiveBox
 	})],
 	templateUrl: './app.component.html',
-	styleUrl: './app.component.css'
 })
 export class AppComponent {
-	
+	readonly PageLayout = PageLayout;
+	public pageLayoutService = inject(PageLayoutService);
 }

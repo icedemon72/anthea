@@ -1,2 +1,9 @@
-<!--<app-sidebar />-->
-<router-outlet />
+<ng-container [ngSwitch]="pageLayoutService.layout$ | async">
+	<app-user *ngSwitchCase="PageLayout.User">
+		<router-outlet />
+	</app-user>
+
+	<app-guest *ngSwitchCase="PageLayout.Guest">
+		<router-outlet />
+	</app-guest>
+</ng-container>

@@ -1,14 +1,22 @@
-import { Routes } from '@angular/router';
-import { GuestComponent } from './layouts/guest/guest.component';
-import { UserComponent } from './layouts/user/user.component';
+import {Routes} from '@angular/router';
+import {setLayout} from "./layouts/page-layout.resolver";
+import {PageLayout} from "./layouts/PageLayout";
 
 export const routes: Routes = [
 	{
 		path: 'auth',
-		component: GuestComponent,
+		resolve: {
+			layout: setLayout(PageLayout.Guest)
+		},
+		loadChildren: () => import('./layouts/guest/guest-routes')
+			.then((m) => m.guestRoutes),
 	},
 	{
 		path: '',
-		component: UserComponent,
-	},
+		resolve: {
+			layout: setLayout(PageLayout.User)
+		},
+		loadChildren: () => import('./layouts/user/user-routes')
+			.then((m) => m.userRoutes),
+	}
 ];

@@ -1,5 +1,5 @@
 import {inject, Injectable} from '@angular/core';
-import {BehaviorSubject, map, Observable} from "rxjs";
+import {BehaviorSubject, map, Observable, tap} from "rxjs";
 import {HttpClient, HttpResponse} from "@angular/common/http";
 import { User, UserResp } from '../models/user';
 import { TokenStorageService } from './token.service';
@@ -14,6 +14,7 @@ export class AuthService {
 	private urls = {
 		register: `${this.apiUrl}/register`,
 		login: `${this.apiUrl}/login`,
+		refresh: `${this.apiUrl}/refresh`,
 	}
 
 	private storageService = inject(TokenStorageService);
@@ -50,5 +51,13 @@ export class AuthService {
 
 	register(name: string, email: string, password: string): Observable<HttpResponse<any>> {
 		return this.http.post(this.urls.register, { name, email, password }, { observe: 'response' });
+	}
+
+	refreshToken() {
+		return this.http.post(this.urls.refresh, {
+			refresh_token : this.storageService.getRefresh()
+		}).pipe(
+			tap((token: any) => { this.storageService.setToken(token.access_token)})
+		)
 	}
 }
