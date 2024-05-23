@@ -16,6 +16,13 @@
 	.text-muted {
 		@apply text-gray-400
 	}
+	.gradient-anthea {
+		@apply bg-gradient-to-r from-anthea-400 to-anthea-600;
+	}
+
+	.gradient-anthea-inv {
+		@apply bg-gradient-to-r from-anthea-600 to-anthea-400;
+	}
 }
 
 body {
