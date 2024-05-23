@@ -1,4 +1,4 @@
-export interface  UserResp {
+export interface UserResp {
 	accessToken?: string;
 	refreshToken?: string;
 	user?: User;

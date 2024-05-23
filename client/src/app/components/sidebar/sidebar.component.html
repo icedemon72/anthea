@@ -23,8 +23,8 @@
 			<ul>
 				<app-item name="Nalog" icon="heroUserCircle" />
 
-
-				<li class="text-red-500 my-2 border-anthea-300 transition-all hover:bg-red-500 rounded-lg hover:text-white">
+				<li (click)="refreshTest()">Refresh me</li>
+				<li class="text-red-500 my-2 border-anthea-300 transition-all hover:bg-red-500 rounded-lg hover:text-white" (click)="logout()">
 					<div class="nav-item active flex items-center gap-3 p-3 cursor-pointer rounded-2xl ">
 						<ng-icon size="20px" strokeWidth="2px" name="heroArrowLeftStartOnRectangle"></ng-icon>
 						<p>Odjavi se</p>

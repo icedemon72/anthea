@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
-import {BehaviorSubject, map, Observable, tap} from "rxjs";
-import {HttpClient, HttpResponse} from "@angular/common/http";
+import {BehaviorSubject, catchError, map, Observable, tap, throwError} from "rxjs";
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { User, UserResp } from '../models/user';
 import { TokenStorageService } from './token.service';
 
@@ -9,12 +9,14 @@ import { TokenStorageService } from './token.service';
 })
 
 export class AuthService {
-	private apiUrl = "http://localhost:1337";
+	private apiUrl = process.env['API_URL'];
 
 	private urls = {
 		register: `${this.apiUrl}/register`,
 		login: `${this.apiUrl}/login`,
 		refresh: `${this.apiUrl}/refresh`,
+		logout: `${this.apiUrl}/logout`,
+		protected: `${this.apiUrl}/protected`,
 	}
 
 	private storageService = inject(TokenStorageService);
@@ -55,9 +57,41 @@ export class AuthService {
 
 	refreshToken() {
 		return this.http.post(this.urls.refresh, {
-			refresh_token : this.storageService.getRefresh()
+			refreshToken : this.storageService.getRefresh()
 		}).pipe(
-			tap((token: any) => { this.storageService.setToken(token.access_token)})
+			tap((token: any) => { this.storageService.setToken(token.accessToken)})
 		)
+	}
+
+	logout() {
+		const accessToken = this.storageService.getToken();
+		const refreshToken = this.storageService.getRefresh();
+
+		const options = {
+			headers: new HttpHeaders({'Authorization': `Bearer ${accessToken}`})
+		}
+		
+		return this.http.post(this.urls.logout, {
+			...options,
+			refreshToken,
+			observe: 'response',
+		}).pipe(
+			tap(() => {
+				this.storageService.signOut();
+				this.user.next(null);
+			}),
+			catchError((error) => {
+				this.storageService.signOut();
+				this.user.next(null);
+				return throwError(() => new Error(error));
+			})
+		)
+	}
+
+	protected() {
+		const options = {
+			headers: new HttpHeaders({'Authorization': `Bearer ${this.storageService.getToken()}`})
+		}
+		return this.http.post(this.urls.protected, {...options, refreshToken: this.storageService.getRefresh()});
 	}
 }

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -15,6 +15,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 
 export class RegisterComponent {
   private authService = inject(AuthService);
+  private router = inject(Router);
 
   registerForm = new FormGroup({
     name: new FormControl(''),
@@ -23,6 +24,10 @@ export class RegisterComponent {
   }, Validators.required);
 
   onSubmit() {
-    this.authService.register(this.registerForm.value.name!, this.registerForm.value.email!, this.registerForm.value.password!).subscribe();
+    this.authService.register(this.registerForm.value.name!, this.registerForm.value.email!, this.registerForm.value.password!).subscribe(
+      data => {
+				this.router.navigateByUrl('auth/login');
+			}
+    );
   }
 }

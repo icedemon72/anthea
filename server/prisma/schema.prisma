@@ -64,7 +64,7 @@ model Student {
 model Session {
   id           Int      @id @default(autoincrement())
   userId       Int      @map("user_id")
-  refreshToken String   @map("refresh_token")
+  refreshToken String   @db.Text @map("refresh_token")
   userAgent    String   @map("user_agent")
   active       Boolean  @default(true)
   createdAt    DateTime @default(now()) @map("created_at")

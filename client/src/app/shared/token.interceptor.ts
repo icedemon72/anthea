@@ -14,6 +14,7 @@ import {TokenStorageService} from "../services/token.service";
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
+	private alreadyTried = false;
 	private isRefreshing = false;
 	private refreshTokenSubject = new BehaviorSubject<any>(null);
 	private authService = inject(AuthService);
@@ -21,7 +22,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
 	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 		console.log("THE INTERCEPTOOOOOR");
-
+		
 		if(this.tokenService.getToken()) {
 			request = this.addToken(request, this.tokenService.getToken()!);
 		}
@@ -31,14 +32,14 @@ export class TokenInterceptor implements HttpInterceptor {
 				if (error instanceof HttpErrorResponse && error.status === 401) {
 					return this.handle401Error(request, next);
 				} else {
-					return throwError(error);
+					return throwError(() => new Error(error));
 				}
 			})
 		)
 	}
 
 	private addToken(request: HttpRequest<any>, token: string) {
-		return  request.clone({
+		return request.clone({
 			setHeaders: {
 				Authorization: `Bearer ${token}`,
 			}
@@ -46,7 +47,6 @@ export class TokenInterceptor implements HttpInterceptor {
 	}
 
 	private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
-
 		if(!this.isRefreshing) {
 			this.isRefreshing = true;
 			this.refreshTokenSubject.next(null);
@@ -54,9 +54,8 @@ export class TokenInterceptor implements HttpInterceptor {
 			return this.authService.refreshToken().pipe(
 				switchMap((token: any) => {
 					this.isRefreshing = false;
-					this.refreshTokenSubject.next(token.access_token);
-					// console.log("This should be token -------> ", token.access_token);
-					return next.handle(this.addToken(request, token.access_token))
+					this.refreshTokenSubject.next(token.accessToken);
+					return next.handle(this.addToken(request, token.accessToken))
 				})
 			)
 		} else {

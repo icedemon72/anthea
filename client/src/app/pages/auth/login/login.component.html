@@ -1,7 +1,5 @@
 <div class="h-screen w-screen flex overflow-x-hidden">
-
 	<div class="w-full md:w-1/2 bg-mosaic-pattern md:bg-none bg-cover flex flex-col justify-center items-center  md:block ">
-
 		<div class="w-11/12 pt-10 pb-12 md:w-full bg-white rounded-lg md:rounded-none h-auto md:h-screen flex flex-col justify-center items-center md:pb-12 shadow-lg md:shadow-none">
 			<div class="text-start mb-12 w-3/4">
 				<h1 class="text-anthea-900 text-2xl font-black">Anthea</h1>
@@ -9,7 +7,7 @@
 			<div class="w-3/4">
 				<div class="">
 					<h1 class="text-3xl font-black">Uloguj se</h1>
-					<p class="text-muted mt-2 text-sm">Nemaš nalog? <a class="font-semibold text-royal-blue-600 hover:underline transition-all" routerLink="/register">Registruj se</a></p>
+					<p class="text-muted mt-2 text-sm">Nemaš nalog? <a class="font-semibold text-royal-blue-600 hover:underline transition-all" routerLink="/auth/register">Registruj se</a></p>
 				</div>
 				<form class="mt-5" [formGroup]="loginForm" (ngSubmit)="onSubmit()" >
 					<div>

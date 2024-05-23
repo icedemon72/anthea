@@ -2,14 +2,13 @@ import prisma from "../../prisma/client";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { newError } from "../utils";
-import { USER_SELECT } from "../../prisma/selects";
 
 export const loginUser = async (email: string, password: string, userAgent: string) => {
 	let user = await prisma.user.findUnique({
 		where: { email },
 	});
 
-	const expiresIn = process.env.TOKEN_EXPIRE as string;
+	// const expiresIn = process.env.TOKEN_EXPIRE as string;
 	if (!user) throw { status: 400, message: 'Korisnik ne postoji' }
 
 	let matchingPass = await bcrypt.compare(password, user.password);
@@ -18,9 +17,10 @@ export const loginUser = async (email: string, password: string, userAgent: stri
 	const roles = await getRoles(user.id);
 	
 	const accessToken = jwt.sign({ id: user.id, email: user.email, roles },
-		process.env.JWT_SECRET as string, { expiresIn });
+		process.env.AUTH_ACCESS_TOKEN_SECRET as string, { expiresIn: process.env.AUTH_ACCESS_TOKEN_EXPIRY });
+	
 	const refreshToken = jwt.sign({ id: user.id, email: user.email, roles },
-		process.env.REFRESH_SECRET as string);
+		process.env.AUTH_REFRESH_TOKEN_SECRET as string, { expiresIn: process.env.AUTH_REFRESH_TOKEN_EXPIRY });
 
 	const session = {
 		userId: user.id,
@@ -72,7 +72,6 @@ export const logoutUser = async (refreshToken: string, userAgent: string) => {
 
 export const refreshAccessToken = async (refreshToken: string, userAgent: string) => {
 	try {
-		const expiresIn = process.env.TOKEN_EXPIRE as string;
 		
 		let session = await prisma.session.findFirst({
 			where: { refreshToken, userAgent }
@@ -80,7 +79,7 @@ export const refreshAccessToken = async (refreshToken: string, userAgent: string
 
 		if(!session) throw newError(409, 'Sesija ne postoji!');
 		
-		let decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET as string);
+		let decoded = jwt.verify(refreshToken, process.env.AUTH_REFRESH_TOKEN_SECRET as string);
 
 		if (!decoded) throw { status: 409, message: 'Refresh Token je istekao!' };
 
@@ -94,7 +93,7 @@ export const refreshAccessToken = async (refreshToken: string, userAgent: string
 
 		if (!user) throw { status: 404, message: 'Korisnik ne postoji!' };
 
-		const accessToken = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET as string, { expiresIn });
+		const accessToken = jwt.sign({ id: user.id, email: user.email }, process.env.AUTH_ACCESS_TOKEN_SECRET as string, { expiresIn: process.env.AUTH_ACCESS_TOKEN_EXPIRY });
 
 		return { accessToken };
 
