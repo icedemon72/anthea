@@ -8,11 +8,13 @@ import {
 	heroUserCircle,
 	heroSquaresPlus, heroSquares2x2, heroArchiveBox
 } from "@ng-icons/heroicons/outline";
+import { UserComponent } from './layouts/user/user.component';
+import { GuestComponent } from './layouts/guest/guest.component';
 
 @Component({
 	selector: 'app-root',
 	standalone: true,
-	imports: [RouterOutlet, SidebarComponent, NgIconComponent],
+	imports: [RouterOutlet, UserComponent, GuestComponent, NgIconComponent],
 	providers: [provideIcons(
 {
 		heroHome,
@@ -26,4 +28,5 @@ import {
 	styleUrl: './app.component.css'
 })
 export class AppComponent {
+	
 }

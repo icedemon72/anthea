@@ -39,8 +39,10 @@ export const loginUser = async (email: string, password: string, userAgent: stri
 	return {
 		accessToken,
 		refreshToken,
-		user,
-		roles
+		user: {
+			...user,
+			roles
+		}
 	}
 }
 
