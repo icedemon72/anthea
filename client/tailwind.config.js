@@ -7,6 +7,7 @@ module.exports = {
 		extend: {
 			backgroundImage: {
 				'mosaic-pattern': "url('assets/img/mosaic.jpg')",
+				'mosaic-pattern-anthea': "url('assets/img/mosaic_2.jpg')"
 			},
 			colors: {
 				'anthea': {

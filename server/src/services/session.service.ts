@@ -2,10 +2,11 @@ import prisma from "../../prisma/client";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { newError } from "../utils";
+import { USER_SELECT } from "../../prisma/selects";
 
 export const loginUser = async (email: string, password: string, userAgent: string) => {
-	const user = await prisma.user.findUnique({
-		where: { email }
+	let user = await prisma.user.findUnique({
+		where: { email },
 	});
 
 	const expiresIn = process.env.TOKEN_EXPIRE as string;
@@ -31,6 +32,9 @@ export const loginUser = async (email: string, password: string, userAgent: stri
 	await prisma.session.create({
 		data: session
 	});
+
+	// @ts-ignore
+	delete user.password;
 
 	return {
 		accessToken,

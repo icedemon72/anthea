@@ -1,13 +1,12 @@
 import bcrypt from 'bcrypt';
 import prisma from "../../prisma/client";
 import { USER_SELECT } from "../../prisma/selects";
-import { Prisma } from '@prisma/client';
 import { newError } from '../utils';
 
 export const register = async (data: any) => {
 	data.password = await bcrypt.hash(data.password, 10);
 
-	const user = await prisma.user.create({ data });
+	const user = await prisma.user.create({ data, select: USER_SELECT });
 
 	await prisma.student.create({
 		data: {
@@ -16,10 +15,10 @@ export const register = async (data: any) => {
 					id: user.id
 				}
 			}
-		},
-		select: USER_SELECT
+		}
 	});
 
+	
 	return { 
 		status: 200,
 		message: 'Uspešna registracija!',

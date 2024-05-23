@@ -1,1 +1,36 @@
-<p>register works!</p>
+<div class="h-screen w-screen flex overflow-x-hidden">
+	<div class="hidden md:w-1/2 lg:w-3/4 md:block bg-mosaic-pattern-anthea bg-cover"></div>
+	<div class="w-full md:w-1/2 flex flex-col justify-center items-center md:block  bg-mosaic-pattern-anthea  ">
+
+		<div class="w-11/12 md:w-full flex flex-col justify-center items-center pt-10 pb-12 bg-white rounded-lg md:rounded-none h-auto md:h-screen md:pb-12 shadow-lg md:shadow-none">
+			<div class="text-start mb-12 w-3/4">
+				<h1 class="text-anthea-900 text-2xl font-black">Anthea</h1>
+			</div>
+			<div class="w-3/4">
+				<div class="">
+					<h1 class="text-3xl font-black">Registruj se</h1>
+					<p class="text-muted mt-2 text-sm">Imaš nalog? <a class="font-semibold text-royal-blue-600 hover:underline transition-all" [routerLink]="['/login']">Uloguj se</a></p>
+				</div>
+				<form class="mt-5" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+					<div>
+						<label for="name" class="block mb-2 text-sm font-medium text-gray-900">Ime i prezime</label>
+						<input autofocus type="name" formControlName="name" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-royal-blue-500 focus:border-royal-blue-500 block w-full p-2.5" placeholder="Aelita Hopper" required />
+					</div>
+					<div class="mt-4">
+						<label for="email" class="block mb-2 text-sm font-medium text-gray-900">E-adresa</label>
+						<input type="email" id="email" formControlName="email" name="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-royal-blue-500 focus:border-royal-blue-500 block w-full p-2.5" placeholder="primer@aelita.com" required />
+					</div>
+					<div class="mt-4">
+						<label for="password" class="block mb-2 text-sm font-medium text-gray-900">Lozinka</label>
+						<input type="password" formControlName="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-royal-blue-500 focus:border-royal-blue-500 block w-full p-2.5" placeholder="•••••••" required />
+					</div>
+					
+					<div class="mt-8">
+						<button type="submit" class="p-2 w-full bg-anthea-500 text-white rounded-lg hover:bg-anthea-400 transition-all active:scale-95">Registruj se</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</div>

@@ -4,7 +4,7 @@ import {LoginComponent} from "./pages/auth/login/login.component";
 import {RegisterComponent} from "./pages/auth/register/register.component";
 
 export const routes: Routes = [
-	{path: '', component: AppComponent},
-	{path: 'login', component: LoginComponent},
-	{path: 'register', component: RegisterComponent},
+	{ path: '', component: AppComponent, title: 'Početna | Anthea' },
+	{ path: 'login', component: LoginComponent, title: 'Prijava | Anthea' },
+	{ path: 'register', component: RegisterComponent, title: 'Registracija | Anthea' },
 ];
