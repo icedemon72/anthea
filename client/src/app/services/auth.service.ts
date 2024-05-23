@@ -3,13 +3,14 @@ import {BehaviorSubject, catchError, map, Observable, tap, throwError} from "rxj
 import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { User, UserResp } from '../models/user';
 import { TokenStorageService } from './token.service';
+import { API_URL } from '../shared/apiUrl';
 
 @Injectable({
 	providedIn: 'root'
 })
 
 export class AuthService {
-	private apiUrl = process.env['API_URL'];
+	private apiUrl = API_URL;
 
 	private urls = {
 		register: `${this.apiUrl}/register`,

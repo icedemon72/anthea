@@ -1,5 +1,5 @@
 <div class="w-full h-screen flex justify-center items-center">
-	<form class="max-w-screen-sm w-full bg-white px-4 py-8 rounded-lg shadow-md">
+	<form [formGroup]="storeForm" (ngSubmit)="onSubmit()"  class="max-w-screen-sm w-full bg-white px-4 py-8 rounded-lg shadow-md">
 		<h1 class="text-2xl font-black">Dodaj odsek</h1>
 		<div class="mt-5">
 			<label for="name" class="block mb-2 text-sm font-medium text-gray-900">Naziv odseka</label>
@@ -15,7 +15,7 @@
 		</div>
 
 		<div class="mt-8">
-			<button type="submit" class="p-2 w-full gradient-anthea hover:text-anthea-950 text-white rounded-lg  transition-all active:scale-95">Dodaj odsek	</button>
+			<button type="submit" class="p-2 w-full gradient-anthea hover:text-anthea-950 text-white rounded-lg  transition-all active:scale-95">Dodaj odsek</button>
 		</div>
 	</form>
 </div>
