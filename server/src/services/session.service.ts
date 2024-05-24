@@ -71,35 +71,34 @@ export const logoutUser = async (refreshToken: string, userAgent: string) => {
 }
 
 export const refreshAccessToken = async (refreshToken: string, userAgent: string) => {
+	let session = await prisma.session.findFirst({
+		where: { refreshToken, userAgent }
+	});
+
+	if(!session) throw newError(409, 'Sesija ne postoji!');
+	
+	let decoded: any;
+
 	try {
-		
-		let session = await prisma.session.findFirst({
-			where: { refreshToken, userAgent }
-		});
-
-		if(!session) throw newError(409, 'Sesija ne postoji!');
-		
-		let decoded = jwt.verify(refreshToken, process.env.AUTH_REFRESH_TOKEN_SECRET as string);
-
-		if (!decoded) throw { status: 409, message: 'Refresh Token je istekao!' };
-
-
-		let user = await prisma.user.findUniqueOrThrow({
-			where: {
-				// @ts-ignore
-				email: decoded.email
-			}
-		});
-
-		if (!user) throw { status: 404, message: 'Korisnik ne postoji!' };
-
-		const accessToken = jwt.sign({ id: user.id, email: user.email }, process.env.AUTH_ACCESS_TOKEN_SECRET as string, { expiresIn: process.env.AUTH_ACCESS_TOKEN_EXPIRY });
-
-		return { accessToken };
-
+		decoded = jwt.verify(refreshToken, process.env.AUTH_REFRESH_TOKEN_SECRET as string);
 	} catch (e: any) {
-		throw e;
+		throw newError(409, 'Refresh token je istekao!');
 	}
+	
+
+	let user = await prisma.user.findUnique({
+		where: {
+			// @ts-ignore
+			email: decoded.email
+		}
+	});
+
+	if (!user) throw newError(404, 'Korisnik ne postoji!');
+	
+	const accessToken = jwt.sign({ id: user.id, email: user.email }, process.env.AUTH_ACCESS_TOKEN_SECRET as string, { expiresIn: process.env.AUTH_ACCESS_TOKEN_EXPIRY });
+
+	return { accessToken };
+
 }
 
 const getRoles = async(id: number) => {

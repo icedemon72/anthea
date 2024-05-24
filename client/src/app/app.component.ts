@@ -6,7 +6,10 @@ import {
 	heroHome,
 	heroArrowLeftStartOnRectangle,
 	heroUserCircle,
-	heroSquaresPlus, heroSquares2x2, heroArchiveBox
+	heroSquaresPlus, 
+	heroSquares2x2, 
+	heroArchiveBox,
+	heroBuildingLibrary
 } from "@ng-icons/heroicons/outline";
 import { UserComponent } from './layouts/user/user.component';
 import { GuestComponent } from './layouts/guest/guest.component';
@@ -25,7 +28,8 @@ import {PageLayoutService} from "./layouts/page-layout.service";
 		heroUserCircle,
 		heroSquares2x2,
 		heroSquaresPlus,
-		heroArchiveBox
+		heroArchiveBox,
+		heroBuildingLibrary
 	})],
 	templateUrl: './app.component.html',
 })

@@ -1,0 +1,13 @@
+<div class="w-full h-full flex justify-center items-center">
+	<form [formGroup]="joinForm" (ngSubmit)="onSubmit()" class="max-w-screen-sm w-full bg-white px-4 py-8 rounded-lg shadow-md">
+		<h1 class="text-2xl font-black">Pridruži se učionici</h1>
+		<div class="mt-5">
+			<label for="code" class="block mb-2 text-sm font-medium text-gray-900">Kod</label>
+			<input type="text" id="code" formControlName="code" name="code" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-royal-blue-500 focus:border-royal-blue-500 block w-full p-2.5" placeholder="LYOKO" required />
+		</div>
+
+		<div class="mt-8">
+			<button type="submit" class="p-2 w-full gradient-anthea hover:text-anthea-950 text-white rounded-lg  transition-all active:scale-95">Pridruži se</button>
+		</div>
+	</form>
+</div>
