@@ -7,7 +7,7 @@
 
 
 
-<li class="[&.active]:border-l-4 my-2 border-anthea-300 [&.active]:bg-anthea-50 rounded-r-lg [&.active]:text-anthea-900 hover:border-l-4 transition-all" [class.active]="active">
+<li routerLink="{{ link }}" class="[&.active]:border-l-4 my-2 border-anthea-300 [&.active]:bg-anthea-50 rounded-r-lg [&.active]:text-anthea-900 hover:border-l-4 transition-all" [class.active]="active">
 	<div class="nav-item active flex items-center gap-3 p-3 cursor-pointer rounded-2xl " [class.active]="active">
 		<ng-icon size="20px" name="{{icon}}"></ng-icon>
 		<p>{{name}}</p>

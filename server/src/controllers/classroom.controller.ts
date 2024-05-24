@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { changeCode, classroomDelete, classroomIndex, classroomJoin, classroomLeave, classroomProfessorJoin, classroomShow, classroomStore, classroomUpdate } from "../services/classroom.service";
+import { getProfessorByUser } from "../services/professor.service";
+import { getStudentByUser } from "../services/student.service";
 
 
 // Admin should see this one, returns every classroom there is
@@ -29,9 +31,8 @@ export const handleClassroomStore = async (req: Request, res: Response) => {
 	try {
 		const data = req.body;
 
-		const professor: number = 1;
-		// implement data from JWT here
-		const resp = await classroomStore(data, professor);
+		const professor = await getProfessorByUser(req?.user?.id! as unknown as number);
+		const resp = await classroomStore(data, professor.id);
 		return res.send(resp);
 	} catch (e: any) {
 		return res.status(e.status || 500).send(e || 'Internal Server Error');
@@ -67,7 +68,10 @@ export const handleClassroomDelete = async (req: Request, res: Response) => {
 export const handleClassroomJoin = async (req: Request, res: Response) => {
 	try {
 		const { code } = req.body;
-		const resp = await classroomJoin(code);
+
+		const user = await getStudentByUser(req.user?.id! as unknown as number);
+
+		const resp = await classroomJoin(code, user.id);
 		
 		return res.send(resp);
 	} catch (e: any) {

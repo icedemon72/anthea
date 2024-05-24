@@ -41,7 +41,7 @@ export const classroomStore = async (data: any, professorId: number) => {
 			},
 			subject: {
 				connect: {
-					id: data.subject_id
+					id: data.subjectId
 				}
 			},
 			professors: {
@@ -77,7 +77,7 @@ export const classroomDelete = async (id: number) => {
 	return { message: 'Uspešno brisanje iz baze' };
 }
 
-export const classroomJoin = async (code: string, user: number = 1) => {
+export const classroomJoin = async (code: string, user: number) => {
 	const student = await getStudentByUser(user);
 
 	const classroom = await prisma.classroom.findFirst({
@@ -87,6 +87,19 @@ export const classroomJoin = async (code: string, user: number = 1) => {
 	});
 
 	if(!classroom) throw newError(404, 'Unet je nevalidan kod!');
+
+	const alreadyInClassroom = await prisma.classroom.findFirst({
+		where: {
+			id: classroom.id,
+			students: {
+				some: {
+					id: user
+				}	
+			}
+		}
+	});
+
+	if(alreadyInClassroom) throw newError(409, 'Već si u ovoj učionici');
 
 	const joinedClassroom = await prisma.classroom.update({
 		where: {

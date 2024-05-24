@@ -15,7 +15,8 @@ export class ClassroomService {
 	private storageService = inject(TokenStorageService);
 
 	private urls = {
-		store: `${this.apiUrl}/classrooms`
+		store: `${this.apiUrl}/classrooms`,
+		join: `${this.apiUrl}/classrooms/join`,
 	}
 
 	private options = {
@@ -24,8 +25,15 @@ export class ClassroomService {
 
 	store(name: string, subjectId: number): Observable<any> {
 		return this.http.post(this.urls.store,
-			{ name, subjectId, ...this.options },
+			// change professors to represent id of professors that are in the classrooooom
+			{ name, subjectId, professors: [], ...this.options },
 			{ observe: 'response' }
 		);
+	}
+
+	join(code: string): Observable<any> {
+		return this.http.post(this.urls.join, 
+			{ code, ...this.options, observe: 'response' }
+		)
 	}
 }

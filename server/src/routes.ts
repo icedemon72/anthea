@@ -49,7 +49,7 @@ export default function (app: Express) {
 	});
 
 	app.post('/refresh', handleRefresh);
-	app.use('/classrooms', classroomRouter);
+	app.use('/classrooms', auth, classroomRouter);
 	app.use('/departments', departmentRouter);
 	app.use('/subjects', subjectRouter);
 	app.use('/classrooms/:classroom', validateParams('classroom'), postRouter);

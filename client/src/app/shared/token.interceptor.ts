@@ -11,17 +11,20 @@ import {
 import {BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError} from "rxjs";
 import {AuthService} from "../services/auth.service";
 import {TokenStorageService} from "../services/token.service";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-	private alreadyTried = false;
+	private router = inject(Router)
 	private isRefreshing = false;
 	private refreshTokenSubject = new BehaviorSubject<any>(null);
 	private authService = inject(AuthService);
 	private tokenService = inject(TokenStorageService);
 
+	
 	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 		console.log("THE INTERCEPTOOOOOR");
+	
 		
 		if(this.tokenService.getToken()) {
 			request = this.addToken(request, this.tokenService.getToken()!);
@@ -31,7 +34,13 @@ export class TokenInterceptor implements HttpInterceptor {
 			catchError((error) => {
 				if (error instanceof HttpErrorResponse && error.status === 401) {
 					return this.handle401Error(request, next);
-				} else {
+				} 
+				else if (error instanceof HttpErrorResponse && error.status === 409) {
+					this.tokenService.signOut();
+					this.router.navigateByUrl('/auth/login');
+					return throwError(() => new Error(error as any));
+				} 
+				else {
 					return throwError(() => new Error(error));
 				}
 			})
@@ -59,6 +68,7 @@ export class TokenInterceptor implements HttpInterceptor {
 				})
 			)
 		} else {
+			this.isRefreshing = false;
 			return this.refreshTokenSubject.pipe(
 				filter((token) => token != null),
 				take(1),
