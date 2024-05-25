@@ -14,8 +14,7 @@ import { CommonModule } from '@angular/common';
 		ItemComponent,
 		CommonModule
 	],
-	templateUrl: './sidebar.component.html',
-	styleUrl: './sidebar.component.css'
+	templateUrl: './sidebar.component.html'
 })
 export class SidebarComponent {
 	private router = inject(Router);

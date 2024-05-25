@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { TokenStorageService } from './token.service';
 import { Observable } from 'rxjs';
 import { API_URL } from '../shared/apiUrl';
+import { Department } from '../models/department';
 
 @Injectable({
 	providedIn: 'root'
@@ -13,22 +14,43 @@ export class DepartmentService {
 	private apiUrl = API_URL;
 	private storageService = inject(TokenStorageService);
 	private urls = {
-		store: `${this.apiUrl}/departments`
+		store: `${this.apiUrl}/departments`,
 	}
+	
 	private options = {
 		headers: new HttpHeaders({ 'Authorization': `Bearer ${this.storageService.getToken()}` })
 	}
 
 	store(name: string, type: string): Observable<any> {
 		return this.http.post(this.urls.store,
-			{ name, type, ...this.options },
-			{ observe: 'response' }
+			{ name, type },
+			{ ...this.options, observe: 'response' }
 		);
 	}
 
 	index(): Observable<any> {
 		return this.http.get(this.urls.store,
-			{ ...this.options, observe: 'response' },
+			{ ...this.options },
 		);
 	}
+
+	show(id: number): Observable<any> {
+		return this.http.get(`${this.urls.store}/${id}`, 
+			{ ...this.options }
+		);
+	}
+
+	update(id: number, name: string, type: string): Observable<any> {
+		return this.http.patch(`${this.urls.store}/${id}`,
+			{ name, type },
+			{ ...this.options, observe: 'response' }
+		);
+	}
+
+	delete(id: number): Observable<any> {
+		return this.http.delete(`${this.urls.store}/${id}`, 
+			{ ...this.options, observe: 'response' }
+		);
+	}
+
 }

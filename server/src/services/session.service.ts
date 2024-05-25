@@ -75,14 +75,14 @@ export const refreshAccessToken = async (refreshToken: string, userAgent: string
 		where: { refreshToken, userAgent }
 	});
 
-	if(!session) throw newError(409, 'Sesija ne postoji!');
+	if(!session) throw newError(498, 'Sesija ne postoji!');
 	
 	let decoded: any;
 
 	try {
 		decoded = jwt.verify(refreshToken, process.env.AUTH_REFRESH_TOKEN_SECRET as string);
 	} catch (e: any) {
-		throw newError(409, 'Refresh token je istekao!');
+		throw newError(498, 'Refresh token je istekao!');
 	}
 	
 

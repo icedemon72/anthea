@@ -69,9 +69,9 @@ export const handleClassroomJoin = async (req: Request, res: Response) => {
 	try {
 		const { code } = req.body;
 
-		const user = await getStudentByUser(req.user?.id! as unknown as number);
+		const student = await getStudentByUser(req.user?.id! as number);
 
-		const resp = await classroomJoin(code, user.id);
+		const resp = await classroomJoin(code, student.id);
 		
 		return res.send(resp);
 	} catch (e: any) {

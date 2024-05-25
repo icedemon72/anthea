@@ -18,39 +18,41 @@
 			</div>
 		</div>
 		
-		<div *ngIf="professor">
+		<div class="flex flex-col justify-end">
+			<div *ngIf="professor">
+				<div class="">
+					<p class="p-3 text-muted uppercase font-bold text-xs">Profesor</p>
+					<ul>
+						<app-item name="Napravi učionicu" icon="heroSquaresPlus" link="classrooms/create"/>
+					</ul>
+				</div>
+			</div>
+	
+			<div *ngIf="admin">
+				<div class="">
+					<p class="p-3 text-muted uppercase font-bold text-xs">Admin</p>
+					<ul>
+						<app-item name="Admin panel" icon="heroBuildingLibrary" />
+					</ul>
+				</div>
+			</div>
+	
 			<div class="">
-				<p class="p-3 text-muted uppercase font-bold text-xs">Profesor</p>
+				<p class="p-3 text-muted uppercase font-bold text-xs">Sesija</p>
 				<ul>
-					<app-item name="Napravi učionicu" icon="heroSquaresPlus" link="classrooms/create"/>
+					<app-item name="Nalog" icon="heroUserCircle" />
+	
+					<button (click)="refreshTest()">Klikni me</button>
+	
+					<li class="text-red-500 my-2 border-anthea-300 transition-all hover:bg-red-500 rounded-lg hover:text-white" (click)="logout()">
+						<div class="nav-item active flex items-center gap-3 p-3 cursor-pointer rounded-2xl ">
+							<ng-icon size="20px" strokeWidth="2px" name="heroArrowLeftStartOnRectangle"></ng-icon>
+							<p>Odjavi se</p>
+						</div>
+					</li>
+	
 				</ul>
 			</div>
-		</div>
-
-		<div *ngIf="admin">
-			<div class="">
-				<p class="p-3 text-muted uppercase font-bold text-xs">Admin</p>
-				<ul>
-					<app-item name="Admin panel" icon="heroBuildingLibrary" />
-				</ul>
-			</div>
-		</div>
-
-		<div class="">
-			<p class="p-3 text-muted uppercase font-bold text-xs">Sesija</p>
-			<ul>
-				<app-item name="Nalog" icon="heroUserCircle" />
-
-				<button (click)="refreshTest()">Klikni me</button>
-
-				<li class="text-red-500 my-2 border-anthea-300 transition-all hover:bg-red-500 rounded-lg hover:text-white" (click)="logout()">
-					<div class="nav-item active flex items-center gap-3 p-3 cursor-pointer rounded-2xl ">
-						<ng-icon size="20px" strokeWidth="2px" name="heroArrowLeftStartOnRectangle"></ng-icon>
-						<p>Odjavi se</p>
-					</div>
-				</li>
-
-			</ul>
 		</div>
 	</div>
 </div>

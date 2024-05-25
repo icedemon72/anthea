@@ -1,4 +1,5 @@
 import prisma from "../../prisma/client";
+import { newError } from "../utils";
 
 export const subjectIndex = async () => {
 	const subjects = await prisma.subject.findMany();
@@ -23,9 +24,22 @@ export const subjectStore = async (data: any) => {
 	return subject;
 }
 
+export const subjectShow = async(id: number) => {
+	const subject = await prisma.subject.findFirst({
+		where: {
+			id
+		}
+	});
+
+	if(!subject) throw newError(404, 'Ne postoji predmet sa time ID-em');
+
+	return subject;
+}
+
 
 
 export const subjectUpdate = async (data: any, id: number) => {
+
 	const subject = await prisma.subject.update({
 		where: {
 			id

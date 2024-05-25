@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { subjectDelete, subjectIndex, subjectStore, subjectUpdate } from "../services/subject.service";
+import { subjectDelete, subjectIndex, subjectShow, subjectStore, subjectUpdate } from "../services/subject.service";
 
 // Logged in users
 export const handleSubjectIndex = async (req: Request, res: Response) => {
@@ -17,6 +17,17 @@ export const handleSubjectStore = async (req: Request, res: Response) => {
 		const data = req.body;
 
 		const resp = await subjectStore(data);
+		return res.send(resp);
+	} catch (e: any) {
+		return res.status(e.status || 500).send(e || 'Internal Server Error');
+	} 
+}
+
+export const handleSubjectShow = async (req: Request, res: Response) => {
+	try {
+		const { subject } = req.params;
+
+		const resp = await subjectShow(parseInt(subject));
 		return res.send(resp);
 	} catch (e: any) {
 		return res.status(e.status || 500).send(e || 'Internal Server Error');

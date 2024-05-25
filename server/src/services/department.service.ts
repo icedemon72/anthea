@@ -1,9 +1,22 @@
 import prisma from "../../prisma/client";
+import { newError } from "../utils";
 
 export const departmentIndex = async () => {
 	const departments = await prisma.department.findMany({});
 
 	return departments;
+}
+
+export const departmentShow = async(id: number) => {
+	const department = await prisma.department.findFirst({
+		where: {
+			id
+		}
+	});
+
+	if(!department) throw newError(404, 'Ne postoji odsek sa tim ID-em!');
+
+	return department;
 }
 
 export const departmentStore = async (data: any) => {

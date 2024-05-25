@@ -1,10 +1,21 @@
 import { Request, Response } from "express";
-import { departmentDelete, departmentIndex, departmentStore, departmentUpdate } from "../services/department.service";
+import { departmentDelete, departmentIndex, departmentShow, departmentStore, departmentUpdate } from "../services/department.service";
 
 // Logged in users
 export const handleDepartmentIndex = async (req: Request, res: Response) => {
 	try {
 		const resp = await departmentIndex();
+		return res.send(resp);
+	} catch (e: any) {
+		return res.status(e.status || 500).send(e || 'Internal Server Error');
+	}
+}
+
+export const handleDepartmentShow = async (req: Request, res: Response) => {
+	try {
+		const { department } = req.params;
+
+		const resp = await departmentShow(parseInt(department));
 		return res.send(resp);
 	} catch (e: any) {
 		return res.status(e.status || 500).send(e || 'Internal Server Error');

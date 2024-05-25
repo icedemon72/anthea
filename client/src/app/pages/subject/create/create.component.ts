@@ -4,7 +4,6 @@ import { DepartmentService } from '../../../services/department.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Department } from '../../../models/department';
 import { CommonModule } from '@angular/common';
-import { Subject } from '../../../models/subject';
 
 @Component({
 	selector: 'app-create',
@@ -29,12 +28,12 @@ export class SubjectCreate implements OnInit {
 		departmentId: new FormControl(''),
 	}, Validators.required);
 
-	ngOnInit() {
+	ngOnInit(): void {
 		this.isLoading = true;
+
 		this.departmentService.index().subscribe((resp) => {
 			this.departments = resp.body as Department[];
-			this.isLoading = false;
-		})
+		});
 	}
 
 	onSubmit() {

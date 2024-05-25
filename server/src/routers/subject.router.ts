@@ -1,5 +1,5 @@
 import express from 'express';
-import { handleSubjectDelete, handleSubjectIndex, handleSubjectStore, handleSubjectUpdate } from '../controllers/subject.controller';
+import { handleSubjectDelete, handleSubjectIndex, handleSubjectShow, handleSubjectStore, handleSubjectUpdate } from '../controllers/subject.controller';
 import { validateSubject } from '../validators/subject.validator';
 import { validateParams } from '../validators/validator';
 
@@ -14,6 +14,13 @@ router.post(
 
 // Subject index
 router.get('/', handleSubjectIndex);
+
+// Subject show 
+router.get(
+	'/:subject',
+	validateParams('subject'),
+	handleSubjectShow
+);
 
 // Subject update
 router.patch(

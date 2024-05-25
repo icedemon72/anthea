@@ -77,8 +77,7 @@ export const classroomDelete = async (id: number) => {
 	return { message: 'Uspešno brisanje iz baze' };
 }
 
-export const classroomJoin = async (code: string, user: number) => {
-	const student = await getStudentByUser(user);
+export const classroomJoin = async (code: string, student: number) => {
 
 	const classroom = await prisma.classroom.findFirst({
 		where: {
@@ -93,7 +92,7 @@ export const classroomJoin = async (code: string, user: number) => {
 			id: classroom.id,
 			students: {
 				some: {
-					id: user
+					id: student
 				}	
 			}
 		}
@@ -108,7 +107,7 @@ export const classroomJoin = async (code: string, user: number) => {
 		data: {
 			students: {
 				connect: {
-					id: student.id
+					id: student
 				}
 			}
 		}

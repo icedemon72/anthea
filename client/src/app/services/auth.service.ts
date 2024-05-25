@@ -1,5 +1,5 @@
 import {inject, Injectable} from '@angular/core';
-import {BehaviorSubject, catchError, map, Observable, tap, throwError} from "rxjs";
+import {BehaviorSubject, catchError, map, Observable, of, tap, throwError} from "rxjs";
 import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { User, UserResp } from '../models/user';
 import { TokenStorageService } from './token.service';

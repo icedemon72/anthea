@@ -33,4 +33,23 @@ export class SubjectService {
 			{ ...this.options, observe: 'response' }
 		);
 	}
+
+	show(id: string): Observable<any> {
+		return this.http.get(`${this.urls.store}/${id}`, 
+			{ observe: 'response' }
+		);
+	}
+
+	update(id: string, name: string, semester: number, departmentId: number): Observable<any> {
+		return this.http.patch(`${this.urls.store}/${id}`, 
+			{ name, semester, departmentId },
+			{ ...this.options, observe: 'response' }
+		);
+	}
+
+	delete(id: string): Observable<any> {
+		return this.http.delete(`${this.urls.store}/${id}`, 
+			{ ...this.options, observe: 'response' }
+		);
+	}
 }

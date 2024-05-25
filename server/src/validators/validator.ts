@@ -3,11 +3,27 @@ import { validationResult, matchedData, param } from 'express-validator';
 
 export const validator = (req: Request, res: Response, next: NextFunction) => {
 	const errors = validationResult(req);
+
 	if (!errors.isEmpty())
 		return res.status(400).json({ errors: errors.array() });
 
 	req.body = matchedData(req, {
-		includeOptionals: true,
+		locations: ['body'],
+		includeOptionals: false,
+	});
+
+	next();
+}
+
+export const paramValidator = (req: Request, res: Response, next: NextFunction) => {
+	const errors = validationResult(req);
+
+	if (!errors.isEmpty())
+		return res.status(400).json({ errors: errors.array() });
+
+	req.params = matchedData(req, {
+		locations: ['params'],
+		includeOptionals: false,
 	});
 
 	next();
@@ -29,7 +45,7 @@ export const validateParams = (...parameters: string[]) => {
 	);
 
 	return (params.length) 
-		? [ ...params, validator ]
+		? [ ...params, paramValidator ]
 		: [];
 
 } 

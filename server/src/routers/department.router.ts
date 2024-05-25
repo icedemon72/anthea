@@ -1,5 +1,5 @@
 import express from 'express';
-import { handleDepartmentDelete, handleDepartmentIndex, handleDepartmentStore, handleDepartmentUpdate } from '../controllers/department.controller';
+import { handleDepartmentDelete, handleDepartmentIndex, handleDepartmentShow, handleDepartmentStore, handleDepartmentUpdate } from '../controllers/department.controller';
 import { validateDepartment } from '../validators/department.validator';
 import { validateParams } from '../validators/validator';
 
@@ -14,6 +14,9 @@ router.post(
 
 // Department index
 router.get('/', handleDepartmentIndex);
+
+// Department show
+router.get('/:department', handleDepartmentShow);
 
 // Department update
 router.patch(

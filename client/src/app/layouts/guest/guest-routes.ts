@@ -1,5 +1,4 @@
-import { RouterModule, Routes } from '@angular/router';
-import { GuestComponent } from './guest.component';
+import { Routes } from '@angular/router';
 import { LoginComponent } from '../../pages/auth/login/login.component';
 import { RegisterComponent } from '../../pages/auth/register/register.component';
 
