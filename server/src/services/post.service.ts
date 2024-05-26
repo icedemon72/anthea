@@ -1,8 +1,22 @@
 import prisma from "../../prisma/client";
 import { newError } from "../utils";
+import { POST_INCLUDE } from '../../prisma/selects';
 
 export const postIndex = async () => {
 	const posts = await prisma.post.findMany();
+	
+	return posts;
+}
+
+export const postClassroomIndex = async (id: number) => {
+	const posts = await prisma.post.findMany({
+		where: {
+			classroomId: id,
+		},
+		include: {
+			...POST_INCLUDE
+		}
+	});
 	
 	return posts;
 }
@@ -11,6 +25,9 @@ export const postShow = async (id: number) => {
 	const post = await prisma.post.findFirst({
 		where: {
 			id
+		},
+		include: {
+			...POST_INCLUDE
 		}
 	});
 
@@ -19,9 +36,7 @@ export const postShow = async (id: number) => {
 	return post;
 }
 
-export const postStore = async (data: any, classroom: number) => {
-	let professor = 1; // TODO: remove this, use middleware...
-	
+export const postStore = async (data: any, classroom: number, professor: number) => {
 	const post = await prisma.post.create({
 		data: {
 			type: data.type,

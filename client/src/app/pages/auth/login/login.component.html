@@ -10,8 +10,17 @@
 					<p class="text-muted mt-2 text-sm">Nemaš nalog? <a class="font-semibold text-royal-blue-600 hover:underline transition-all" routerLink="/auth/register">Registruj se</a></p>
 				</div>
 				<form class="mt-5" [formGroup]="loginForm" (ngSubmit)="onSubmit()" >
+					@if(isError) {
+						@if(fieldErrors?.length) {
+							<div >
+								<ul>
+									<li *ngFor="let error of fieldErrors;">{{ error?.msg }}</li>
+								</ul>
+							</div>
+						}
+					}
 					<div>
-						<label for="email" class="block mb-2 text-sm font-medium text-gray-900">E-adresa</label>
+						<label for="email" class="block mb-2 text-sm font-medium text-gray-900 error:border-red-500">E-adresa</label>
 						<input auotofocus type="text" id="email" formControlName="email" name="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-royal-blue-500 focus:border-royal-blue-500 block w-full p-2.5" placeholder="primer@aelita.com" required />
 					</div>
 					<div class="mt-4">

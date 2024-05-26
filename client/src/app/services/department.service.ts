@@ -30,13 +30,13 @@ export class DepartmentService {
 
 	index(): Observable<any> {
 		return this.http.get(this.urls.store,
-			{ ...this.options },
+			{ ...this.options, observe: 'response' },
 		);
 	}
 
 	show(id: number): Observable<any> {
 		return this.http.get(`${this.urls.store}/${id}`, 
-			{ ...this.options }
+			{ ...this.options, observe: 'response' }
 		);
 	}
 

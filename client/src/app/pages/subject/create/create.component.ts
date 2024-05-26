@@ -24,7 +24,7 @@ export class SubjectCreate implements OnInit {
 
 	storeForm = new FormGroup({
 		name: new FormControl(''),
-		semester: new FormControl(''),
+		semester: new FormControl('1'),
 		departmentId: new FormControl(''),
 	}, Validators.required);
 
@@ -33,6 +33,9 @@ export class SubjectCreate implements OnInit {
 
 		this.departmentService.index().subscribe((resp) => {
 			this.departments = resp.body as Department[];
+			this.isLoading = false;
+		
+			this.storeForm.patchValue({ departmentId: this.departments[0].id });
 		});
 	}
 

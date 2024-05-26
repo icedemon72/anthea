@@ -15,5 +15,7 @@ export class ItemComponent {
 	@Input() name!: string;
 	@Input() icon!: string;
 	@Input() link?: string;
-	@Input({transform: booleanAttribute}) active!: boolean;
+	@Input() isLink: boolean = true;
+	@Input({transform: booleanAttribute}) active: boolean = false;
+
 }

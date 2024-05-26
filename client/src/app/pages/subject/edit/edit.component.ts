@@ -37,26 +37,24 @@ export class SubjectEdit implements OnInit {
 		this.isSuccess = false;
 
 		this.subjectService.show(this.id).subscribe((resp) => {
-			const { name, semester, departmentId } = resp.body as Subject;
+			const { name, semester, departmentId } = resp.body;
+
+			this.subject = resp.body;
 
 			this.updateForm.setValue({
-				name, semester: semester.toString(), departmentId: departmentId.toString()
+				name, semester, departmentId
 			});
-			
-			this.subject = resp.body;
+
 		});
 
 		this.departmentService.index().subscribe(resp => {
-			this.departments = resp;
+			this.departments = resp.body;
 		});
+
 
 		this.isSuccess = true;
 		this.isLoading = false;
 
-		
-
-		
-		
 	}
 
 	onSubmit(): void {

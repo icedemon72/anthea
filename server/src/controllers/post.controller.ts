@@ -1,10 +1,22 @@
 import { Request, Response } from "express";
-import { postDelete, postIndex, postShow, postStore, postUpdate } from "../services/post.service";
+import { postClassroomIndex, postDelete, postIndex, postShow, postStore, postUpdate } from "../services/post.service";
+import { getProfessorByUser } from "../services/professor.service";
 
 // Admin
 export const handlePostIndex = async (req: Request, res: Response) => {
 	try {
 		const resp = await postIndex();
+		return res.send(resp);
+	} catch (e: any) {
+		return res.status(e.status || 500).send(e || 'Internal Server Error');
+	}
+}
+
+export const handlePostClassroomIndex = async (req: Request, res: Response) => {
+	try {
+		const { classroom } = req.params;
+		
+		const resp = await postClassroomIndex(parseInt(classroom));
 		return res.send(resp);
 	} catch (e: any) {
 		return res.status(e.status || 500).send(e || 'Internal Server Error');
@@ -28,8 +40,9 @@ export const handlePostStore = async (req: Request, res: Response) => {
 	try {
 		const { classroom } = req.params;
 		const data = req.body;
+		const professor = await getProfessorByUser(req.user!.id as number);
 
-		const resp = await postStore(data, parseInt(classroom));
+		const resp = await postStore(data, parseInt(classroom), professor!.id);
 
 		return res.send(resp);
 	} catch (e: any) {

@@ -1,8 +1,9 @@
 import { randomBytes } from "crypto";
 import prisma from "../../prisma/client";
-import { getStudentByUser } from "./student.service";
-import { USER_SELECT } from "../../prisma/selects";
 import { newError } from "../utils";
+import { getStudentByUser } from "./student.service";
+import { getProfessorByUser } from "./professor.service";
+import { CLASSROOM_SELECT } from '../../prisma/selects';
 
 // Admin
 export const classroomIndex = async () => {
@@ -15,6 +16,9 @@ export const classroomShow = async (id: number) => {
 	const classroom = await prisma.classroom.findFirst({
 		where: {
 			id
+		},	
+		select: {
+			...CLASSROOM_SELECT,
 		}
 	});
 
@@ -221,6 +225,57 @@ export const changeCode = async (id: number) => {
 	});
 
 	return classroom;
+}
+
+export const classroomJoined = async (id: number) => {
+	let student = await getStudentByUser(id, false);
+	let professor = await getProfessorByUser(id, false);
+
+	let classrooms = await prisma.classroom.findMany({
+		where: {
+			OR: [
+				{
+					students: {
+						some: {
+							id: student?.id || 0
+						}
+					},
+				},
+				{
+					professors: {
+						some: {
+							id: professor?.id || 0
+						},						
+					}
+				}
+			]
+		},
+		select: {
+			professors: true,
+			students: true,
+			...CLASSROOM_SELECT
+		},
+		orderBy: {
+			createdAt: 'desc'
+		}
+	});
+
+	classrooms.forEach((classroom: any) => {
+    // Check if the professor exists in the classroom's professors array
+    const isProfessorInClassroom = classroom.professors.some((professorInClassroom: any) => professorInClassroom.id === professor?.id);
+
+    // If the professor is found in the classroom, add isProfessor: true to the classroom object
+    if (isProfessorInClassroom) {
+			classroom.role = 'P';
+    } else {
+			classroom.role = 'S';
+		}
+		
+		delete classroom['professors'];
+		delete classroom['students'];
+});
+
+	return classrooms;
 }
 
 // Recursive heaven :D

@@ -3,10 +3,17 @@
 		<h1 class="text-2xl font-black">Pridruži se učionici</h1>
 		<div class="mt-5">
 			<label for="code" class="block mb-2 text-sm font-medium text-gray-900">Kod</label>
+			@if(isError) {
+				<p class="text-xs text-red-500">{{ errorMsg }}</p>
+			}
+			@if(isSuccess) {
+				<p class="text-xs text-green-500">Uspešno ste se pridružili novoj učionici!</p>
+			}
 			<code-input 
 				[codeLength]="6"
 				[isCharsCode]="true"
 				[initialFocusField]="0"
+				(codeChanged)="checkIfEmpty($event)"
 				(codeCompleted)="onCodeCompleted($event)"
 				[autocapitalize]
 				[inputType]="'string'"

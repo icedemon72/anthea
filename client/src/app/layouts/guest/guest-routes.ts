@@ -3,8 +3,8 @@ import { LoginComponent } from '../../pages/auth/login/login.component';
 import { RegisterComponent } from '../../pages/auth/register/register.component';
 
 export const guestRoutes: Routes = [
-	{ path: 'login', component: LoginComponent },
-	{ path: 'register', component: RegisterComponent },
+	{ path: 'login', component: LoginComponent, title: 'Prijava | Anthea' },
+	{ path: 'register', component: RegisterComponent, title: 'Registracija | Anthea' },
 ];
 
 export class GuestLayoutRoutingModule {}

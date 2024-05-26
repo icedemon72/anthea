@@ -52,7 +52,7 @@ export default function (app: Express) {
 	app.use('/classrooms', auth, classroomRouter);
 	app.use('/departments', departmentRouter);
 	app.use('/subjects', subjectRouter);
-	app.use('/classrooms/:classroom', validateParams('classroom'), postRouter);
-	app.use('/users', userRouter);
+	app.use('/classrooms/:classroom', auth, validateParams('classroom'), postRouter);
+	app.use('/users', auth, userRouter);
 
 }

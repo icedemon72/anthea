@@ -1,5 +1,5 @@
 import express from 'express';
-import { handleChangeCode, handleClassroomDelete, handleClassroomIndex, handleClassroomJoin, handleClassroomLeave, handleClassroomProfessorsJoin, handleClassroomShow, handleClassroomStore, handleClassroomUpdate } from '../controllers/classroom.controller';
+import { handleChangeCode, handleClassroomDelete, handleClassroomIndex, handleClassroomJoin, handleClassroomJoined, handleClassroomLeave, handleClassroomProfessorsJoin, handleClassroomShow, handleClassroomStore, handleClassroomUpdate } from '../controllers/classroom.controller';
 import { validateParams } from '../validators/validator';
 import { validateClassroomJoin, validateClassroomLeave, validateClassroomStore, validateClassroomUpdate, validateProfessorJoin } from '../validators/classroom.validator';
 
@@ -20,6 +20,12 @@ router.post(
 	validateClassroomJoin,	
 	handleClassroomJoin
 );
+
+router.get(
+	'/joined',
+	handleClassroomJoined
+);
+
 
 // Classroom update
 router.patch(

@@ -1,5 +1,5 @@
 import express from 'express';
-import { handlePostDelete, handlePostShow, handlePostStore, handlePostUpdate } from '../controllers/post.controller';
+import { handlePostClassroomIndex, handlePostDelete, handlePostShow, handlePostStore, handlePostUpdate } from '../controllers/post.controller';
 import { validatePostStore, validatePostUpdate } from '../validators/posts.validator';
 import { validateParams } from '../validators/validator';
 
@@ -11,6 +11,11 @@ router.post(
 	'/posts', 
 	validatePostStore,
 	handlePostStore
+);
+
+router.get(
+	'/posts',
+	handlePostClassroomIndex
 );
 
 // Post show

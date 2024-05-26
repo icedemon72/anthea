@@ -10,10 +10,6 @@ export const postBody = {
 		body('body')
 			.optional({ values: 'null' }),
 	
-	professorId: 
-		body('professorId', 'GreŠka prilikom unosa profesora')
-			.isInt(),
-			
 	type: 
 		body('type')
 			.isIn(['text', 'file', 'announcement']).withMessage('Unet je nevalidan tip'),
@@ -22,7 +18,6 @@ export const postBody = {
 export const validatePostStore = [
 	postBody.title,
 	postBody.body,
-	postBody.professorId,
 	postBody.type,
 
 	validator

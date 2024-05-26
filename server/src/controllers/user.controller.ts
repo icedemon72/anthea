@@ -6,7 +6,6 @@ export async function handleRegister(req: Request, res: Response) {
   	//@ts-ignore
 		let user = req.body;
 		// check here for role! if admin -> can register new users with said role
-		// otherwise - set it to 'user', just like below
 
 		const resp = await register(user);
 		return res.send(resp);
@@ -36,12 +35,23 @@ export const handleUserShow = async (req: Request, res: Response) => {
 	} 
 }
 
+export const handleUserProfile = async (req: Request, res: Response) => {
+	try {
+		const user = req.user?.id;
+
+		const resp = await userShow(parseInt(user as string));
+		return res.send(resp);
+	} catch (e: any) {
+		return res.status(e.status || 500).send(e || 'Internal Server Error');
+	} 
+}
+
 export const handleUserUpdate = async (req: Request, res: Response) => {
 	try {
 		const { user } = req.params;
 		const data = req.body;
 
-		const resp = userUpdate(data, parseInt(user));
+		const resp = await userUpdate(data, parseInt(user));
 		return res.send(resp);
 	} catch (e: any) {
 		return res.status(e.status || 500).send(e || 'Internal Server Error');
@@ -52,7 +62,7 @@ export const handleUserDelete = async (req: Request, res: Response) => {
 	try {
 		const { user } = req.params;
 
-		const resp = userDelete(parseInt(user));
+		const resp = await userDelete(parseInt(user));
 		return res.send(resp);
 	} catch (e: any) {
 		return res.status(e.status || 500).send(e || 'Internal Server Error');

@@ -1,0 +1,27 @@
+<h1 class="p-3 text-lg text-center font-black text-anthea-800">Moje učionice</h1>
+
+@if(isLoading) {
+	<h1>Loading...</h1>
+}
+@else {
+	<div class="flex flex-col gap-3">
+		@if(studentClassrooms.length) {
+			<div>
+				<p class="p-3 text-muted uppercase font-bold text-xs">Student</p>
+				<ul>
+					<app-item *ngFor="let classroom of studentClassrooms;" class="truncate" [name]="classroom.name" [link]="'/classrooms/'+classroom.id" />
+				</ul>
+			</div>
+		} 
+	
+		@if(professorClassrooms.length) {
+			<div>
+				<p class="p-3 text-muted uppercase font-bold text-xs">Profesor</p>
+				<ul>
+					<app-item *ngFor="let classroom of professorClassrooms;" class="truncate" [name]="classroom.name" [link]="'/classrooms/'+classroom.id" />
+				</ul>
+			</div>
+		}
+	</div>
+
+}

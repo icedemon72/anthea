@@ -16,6 +16,7 @@ export class ClassroomService {
 	private urls = {
 		store: `${this.apiUrl}/classrooms`,
 		join: `${this.apiUrl}/classrooms/join`,
+		joined: `${this.apiUrl}/classrooms/joined`
 	}
 
 	private options = {
@@ -39,7 +40,7 @@ export class ClassroomService {
 
 	show(id: number): Observable<any> {
 		return this.http.get(`${this.urls.store}/${id}`, {
-			...this.options
+			...this.options, observe: 'response'
 		});
 	}
 
@@ -53,6 +54,11 @@ export class ClassroomService {
 	delete(id: string): Observable<any> {
 		return this.http.delete(`${this.urls.store}/${id}`,
 			{ ...this.options, observe: 'response' });
+	}
+
+	joined(): Observable<any> {
+		return this.http.get(`${this.urls.joined}`, 
+		{...this.options, observe: 'response' });
 	}
 
 }

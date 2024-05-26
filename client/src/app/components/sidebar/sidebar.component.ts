@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { TokenStorageService } from '../../services/token.service';
 import { CommonModule } from '@angular/common';
+import { ClassroomsBarComponent } from './classrooms-bar/classrooms-bar.component';
 
 @Component({
 	selector: 'app-sidebar',
@@ -12,11 +13,14 @@ import { CommonModule } from '@angular/common';
 	imports: [
 		NgIcon,
 		ItemComponent,
+		ClassroomsBarComponent,
 		CommonModule
 	],
 	templateUrl: './sidebar.component.html'
 })
 export class SidebarComponent {
+	isClassroomOpen: boolean = false;
+
 	private router = inject(Router);
 	private authService = inject(AuthService);
 	private tokenService = inject(TokenStorageService);
@@ -25,6 +29,10 @@ export class SidebarComponent {
 	student: boolean = this.roles?.includes('student') as boolean;
 	professor: boolean = this.roles?.includes('professor') as boolean;
 	admin: boolean = this.roles?.includes('admin') as boolean;
+
+	handleClassroomOpen() {
+		this.isClassroomOpen = !this.isClassroomOpen;
+	}
 
 	logout() {
 		this.authService.logout().subscribe({

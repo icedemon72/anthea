@@ -1,4 +1,4 @@
-import { body } from 'express-validator';
+import { body, query } from 'express-validator';
 import { validator } from "./validator";
 
 export const classroomBody = {
@@ -31,6 +31,13 @@ export const classroomBody = {
 			.isIn(['student', 'professor'])
 }
 
+// export const classroomQuery = {
+// 	with: 
+// 		query('with')
+// 			.optional()
+// 			.isIn(['posts'])
+// }
+
 export const validateClassroomStore = [
 	classroomBody.name,
 	classroomBody.subjectId,
@@ -57,3 +64,9 @@ export const validateClassroomLeave = [
 	classroomBody.role,
 	validator
 ];
+
+// export const validateClassroomQueries = [
+// 	classroomQuery.with,
+
+// 	queryValidator
+// ];

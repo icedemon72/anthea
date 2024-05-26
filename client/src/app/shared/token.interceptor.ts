@@ -35,13 +35,13 @@ export class TokenInterceptor implements HttpInterceptor {
 				if (error instanceof HttpErrorResponse && error.status == 401) {
 					return this.handle401Error(request, next);
 				} 
-				else if (error instanceof HttpErrorResponse && error.status == 409) {
+				else if (error instanceof HttpErrorResponse && error.status == 498) {
 					this.tokenService.signOut();
 					this.router.navigateByUrl('/auth/login');
 					return throwError(() => new Error(error as any));
 				} 
 				else {
-					return throwError(() => new Error(error));
+					return throwError(() => error);
 				}
 			})
 		)

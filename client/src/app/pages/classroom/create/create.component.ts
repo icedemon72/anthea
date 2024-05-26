@@ -4,9 +4,10 @@ import { ClassroomService } from '../../../services/classroom.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subject } from '../../../models/subject';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-create',
+  selector: 'app-classroom-create',
   standalone: true,
   imports: [
 		ReactiveFormsModule,
@@ -21,6 +22,7 @@ export class ClassroomCreate implements OnInit {
 
 	private subjectService = inject(SubjectService);
 	private classroomService = inject(ClassroomService);
+	private router = inject(Router);
 
 	storeForm = new FormGroup({
 		name: new FormControl(''),
@@ -29,14 +31,21 @@ export class ClassroomCreate implements OnInit {
 
 	ngOnInit() {
 		this.isLoading = true;
+		
 		this.subjectService.index().subscribe((resp) => {
 			this.subjects = resp.body as Subject[];
 			this.isLoading = false;
+
+			this.storeForm.patchValue({ subjectId: this.subjects[0].id });
 		});
 	}
 
 	onSubmit() {
 		const { name, subjectId } = this.storeForm.value;
-		this.classroomService.store(name!, subjectId! as unknown as number).subscribe();
+		this.classroomService.store(name!, subjectId! as unknown as number).subscribe({
+			next: resp => {
+				setTimeout(() => { this.router.navigate(['classrooms', resp.body.id]) }, 2000);
+			}
+		});
 	}
 }

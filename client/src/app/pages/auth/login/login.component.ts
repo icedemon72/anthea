@@ -19,6 +19,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 
 export class LoginComponent {
+	isError?: boolean;
+	error?: any;
+	fieldErrors?: any;
+
 	private authService = inject(AuthService);
 	private router = inject(Router);
 
@@ -34,7 +38,12 @@ export class LoginComponent {
 			next: (data) => {
 				this.router.navigateByUrl('');
 			},
-			error: (err) => console.log(err)
+			error: (err) => {
+				this.isError = true;
+				this.error = err?.message;
+				this.fieldErrors = err?.error?.errors;
+				console.log(this.fieldErrors);
+			}
 		});
 	}
 
