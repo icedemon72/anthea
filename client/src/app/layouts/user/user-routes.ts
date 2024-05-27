@@ -11,9 +11,10 @@ import { SubjectEdit } from '../../pages/subject/edit/edit.component';
 import { ProfileComponent } from '../../pages/user/profile/profile.component';
 import { PostCreate } from '../../pages/post/create/create.component';
 import { PostShow } from '../../pages/post/show/show.component';
+import { RoleGuard } from '../../guards/role.guard';
 
 export const userRoutes: Routes = [
-	{ path: 'departments/create', component: DepartmentCreate, title: 'Novi odsek | Anthea' },
+	{ path: 'departments/create', component: DepartmentCreate, canActivate: [RoleGuard],  data: { roles: ['admin'] }, title: 'Novi odsek | Anthea' },
 	{ path: 'departments/:id/edit', component: DepartmentEdit },
 
 	{ path: 'subjects/create', component: SubjectCreate, title: 'Novi predmet | Anthea' },

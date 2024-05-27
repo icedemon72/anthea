@@ -8,6 +8,16 @@ export const subjectIndex = async () => {
 }
 
 export const subjectStore = async (data: any) => {
+	const alreadyExists = await prisma.subject.findFirst({
+		where: {
+			name: data.name,
+			department: {
+				is: data.departmentId
+			}
+		}
+	});
+
+	if(alreadyExists) throw newError(400, 'Predmet već postoji na ovom odseku');
 	
 	const subject = await prisma.subject.create({
 		data: {
