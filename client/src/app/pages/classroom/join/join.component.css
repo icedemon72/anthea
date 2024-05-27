@@ -1,0 +1,9 @@
+/* Apply tailwind class for angular code component */
+::ng-deep .code-input-wrapper-class {
+	@apply bg-white dark:bg-[#121212] text-black dark:text-white !important
+}
+
+/* Apply tailwind class for angular code component for input fields */
+::ng-deep .code-input-wrapper-class input {
+	@apply font-semibold !important
+}

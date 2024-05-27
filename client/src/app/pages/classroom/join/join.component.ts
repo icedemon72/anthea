@@ -5,13 +5,14 @@ import { CodeInputModule } from 'angular-code-input';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-classroom-join',
-  standalone: true,
-  imports: [
+	selector: 'app-classroom-join',
+	standalone: true,
+	imports: [
 		// ReactiveFormsModule,
-		CodeInputModule,
+		CodeInputModule
 	],
-  templateUrl: './join.component.html'
+	templateUrl: './join.component.html',
+	styleUrl: './join.component.css'
 })
 export class ClassroomJoin {
 	isLoading: boolean = false;
@@ -27,29 +28,29 @@ export class ClassroomJoin {
 
 	onCodeCompleted(code: string) {
 		this.isLoading = true;
-		
+
 
 		this.classroomService.join(code).subscribe({
 			next: (resp) => {
 				this.isError = false;
 				this.isSuccess = true;
-				
+
 				setTimeout(() => {
 					this.router.navigate(['classrooms', resp.body.id]);
 				}, 2000)
 			},
 			error: (err) => {
 				this.isError = true;
-				this.errorMsg = err.error.message; 
+				this.errorMsg = err.error.message;
 			},
 			complete: () => {
 				this.isLoading = false;
 			}
 		});
-  }
+	}
 
 	checkIfEmpty(code: string) {
-		if(code.length === 0) {
+		if (code.length === 0) {
 			this.isError = false;
 		}
 	}
