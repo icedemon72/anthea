@@ -25,7 +25,6 @@ export const RoleGuard: CanActivateFn = (
 
 
 const hasPermissions = (userRoles: Array<string>, requiredRoles: Array<string>) => {
-	console.log(userRoles);
 	if (userRoles.includes('admin')) {
 		return true; // Admin can access all the routes
 	}

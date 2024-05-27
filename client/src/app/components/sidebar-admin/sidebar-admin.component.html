@@ -1,0 +1,60 @@
+<div class="">
+	<div class="w-[280px] h-screen bg-white overflow-y-auto">
+		<div class="flex flex-col justify-between p-5 h-full">
+			<div class="">
+				<div class="flex justify-center">
+					<h1 class="text-2xl font-black text-anthea-800">Anthea Admin</h1>
+				</div>
+	
+				<div class="nav mt-5">
+					<div class="">
+						<p class="p-3 text-muted uppercase font-bold text-xs">Pregled</p>
+						<ul>
+							<app-item name="Početna" icon="heroHome" link="" [isLink]="true"/>
+							<app-item name="Arhiva" icon="heroArchiveBox"/>
+						</ul>
+					</div>
+				</div>
+
+				<div class="nav mt-5">
+					<div class="">
+						<p class="p-3 text-muted uppercase font-bold text-xs">Usluge</p>
+						<ul>
+							<app-item name="Odseci" icon="heroChartPie" link=""/>
+							<app-item name="Predmeti" icon="heroBriefcase" link="classrooms/join" />
+							<app-item name="Učionice" icon="heroSquares2x2"/>
+						</ul>
+					</div>
+				</div>
+
+				<div class="nav mt-5">
+					<div class="">
+						<p class="p-3 text-muted uppercase font-bold text-xs">Korisnici</p>
+						<ul>
+							<app-item name="Administratori" icon="heroShieldCheck" link=""/>
+							<app-item name="Profesori" icon="heroAcademicCap" link="classrooms/join" />
+							<app-item name="Studenti" icon="heroUserGroup"/>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+			
+			<div class="flex flex-col justify-end">
+		
+				<div class="">
+					<p class="p-3 text-muted uppercase font-bold text-xs">Sesija</p>
+					<ul>		
+						<li class="text-red-500 my-2 border-anthea-300 transition-all hover:bg-red-500 rounded-lg hover:text-white" (click)="logout()">
+							<div class="nav-item active flex items-center gap-3 p-3 cursor-pointer rounded-2xl ">
+								<ng-icon size="20px" strokeWidth="2px" name="heroArrowLeftStartOnRectangle"></ng-icon>
+								<p>Odjavi se</p>
+							</div>
+						</li>
+		
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
