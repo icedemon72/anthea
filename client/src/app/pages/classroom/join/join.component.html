@@ -1,15 +1,15 @@
 <div class="w-full h-full flex justify-center items-center">
-	<form class="max-w-screen-sm w-full bg-white px-4 py-8 rounded-lg shadow-md">
+	<form class="max-w-screen-sm w-full bg-primary px-4 py-8 rounded-lg shadow-md">
 		<h1 class="text-2xl font-black">Pridruži se učionici</h1>
 		<div class="mt-5">
-			<label for="code" class="block mb-2 text-sm font-medium text-gray-900">Kod</label>
+			<label for="code" class="block mb-2 text-sm font-medium dark:text-label">Kod</label>
 			@if(isError) {
-				<p class="text-xs text-red-500">{{ errorMsg }}</p>
+			<p class="text-xs pb-3 text-red-500">{{ errorMsg }}</p>
 			}
 			@if(isSuccess) {
-				<p class="text-xs text-green-500">Uspešno ste se pridružili novoj učionici!</p>
+			<p class="text-xs text-green-500">Uspešno ste se pridružili novoj učionici!</p>
 			}
-			<code-input 
+			<code-input
 				[codeLength]="6"
 				[isCharsCode]="true"
 				[initialFocusField]="0"
@@ -17,7 +17,8 @@
 				(codeCompleted)="onCodeCompleted($event)"
 				[autocapitalize]
 				[inputType]="'string'"
-				>
+				class="code-input-wrapper-class"
+			>
 			</code-input>
 			<!-- <input type="text" id="code" formControlName="code" name="code" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-royal-blue-500 focus:border-royal-blue-500 block w-full p-2.5" placeholder="LYOKO" required /> -->
 		</div>

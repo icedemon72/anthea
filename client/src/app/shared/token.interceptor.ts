@@ -22,10 +22,7 @@ export class TokenInterceptor implements HttpInterceptor {
 	private tokenService = inject(TokenStorageService);
 
 	
-	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-		console.log("THE INTERCEPTOOOOOR");
-	
-		
+	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {	
 		if(this.tokenService.getToken()) {
 			request = this.addToken(request, this.tokenService.getToken()!);
 		}

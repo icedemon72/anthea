@@ -95,7 +95,9 @@ export const refreshAccessToken = async (refreshToken: string, userAgent: string
 
 	if (!user) throw newError(404, 'Korisnik ne postoji!');
 	
-	const accessToken = jwt.sign({ id: user.id, email: user.email }, process.env.AUTH_ACCESS_TOKEN_SECRET as string, { expiresIn: process.env.AUTH_ACCESS_TOKEN_EXPIRY });
+	let roles = getRoles(user.id);
+
+	const accessToken = jwt.sign({ id: user.id, email: user.email, roles }, process.env.AUTH_ACCESS_TOKEN_SECRET as string, { expiresIn: process.env.AUTH_ACCESS_TOKEN_EXPIRY });
 
 	return { accessToken };
 

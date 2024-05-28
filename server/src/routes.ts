@@ -50,7 +50,7 @@ export default function (app: Express) {
 
 	app.post('/refresh', handleRefresh);
 	app.use('/classrooms', auth, classroomRouter);
-	app.use('/departments', departmentRouter);
+	app.use('/departments', auth, departmentRouter);
 	app.use('/subjects', subjectRouter);
 	app.use('/classrooms/:classroom', auth, validateParams('classroom'), postRouter);
 	app.use('/users', auth, userRouter);

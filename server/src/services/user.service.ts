@@ -69,3 +69,15 @@ export const userDelete = async (id: number) => {
 
 	return { message: 'Korisnik uspešno obrisan!' };
 }
+
+export const getAdminByUser = async (id: number, returnError: boolean = true) => {
+	const admin = await prisma.admin.findFirst({
+		where: {
+			userId: id
+		}
+	});
+
+	if(!admin && returnError) throw newError(404, 'Nije pronadjen administrator');
+
+	return admin;
+}

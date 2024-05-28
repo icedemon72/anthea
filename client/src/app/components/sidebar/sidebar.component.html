@@ -1,12 +1,12 @@
 <div class="">
-	<div class="w-[280px] h-screen bg-white overflow-y-auto">
+	<div class="w-[280px] h-screen bg-primary overflow-y-auto">
 		<div class="flex flex-col justify-between p-5 h-full">
 			<div class="">
 				<div class="flex justify-center">
-					<h1 class="text-2xl font-black text-anthea-800">Anthea</h1>
+					<h1 class="text-2xl font-black text-anthea-800 dark:text-anthea-400">Anthea</h1>
 				</div>
-	
-				<div class="nav mt-5">
+
+				<div class="nav mt-5 text-primary">
 					<div class="">
 						<p class="p-3 text-muted uppercase font-bold text-xs">Pregled</p>
 						<ul>
@@ -18,7 +18,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="flex flex-col justify-end">
 				<div *ngIf="professor">
 					<div class="">
@@ -28,7 +28,7 @@
 						</ul>
 					</div>
 				</div>
-		
+
 				<div *ngIf="admin">
 					<div class="">
 						<p class="p-3 text-muted uppercase font-bold text-xs">Admin</p>
@@ -37,28 +37,28 @@
 						</ul>
 					</div>
 				</div>
-		
+
 				<div class="">
 					<p class="p-3 text-muted uppercase font-bold text-xs">Sesija</p>
 					<ul>
 						<app-item name="Nalog" icon="heroUserCircle" link="profile" />
-		
+
 						<button (click)="refreshTest()">Klikni me</button>
-		
-						<li class="text-red-500 my-2 border-anthea-300 transition-all hover:bg-red-500 rounded-lg hover:text-white" (click)="logout()">
-							<div class="nav-item active flex items-center gap-3 p-3 cursor-pointer rounded-2xl ">
+
+						<li class="text-red-500 my-2 border-anthea-300 transition-all hover:bg-red-500 dark:hover:bg-red-700 rounded-lg hover:text-white" (click)="logout()">
+							<div class="nav-item active flex items-center gap-3 p-3 cursor-pointer rounded-2xl">
 								<ng-icon size="20px" strokeWidth="2px" name="heroArrowLeftStartOnRectangle"></ng-icon>
 								<p>Odjavi se</p>
 							</div>
 						</li>
-		
+
 					</ul>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	<div *ngIf="isClassroomOpen" class="z-50  h-screen w-[280px] absolute transition transform  top-0 left-[280px] bg-gray-50 overflow-y-auto">
+
+	<div *ngIf="isClassroomOpen" class="z-50  h-screen w-[280px] absolute transition transform top-0 left-[280px] bg-sidebar text-primary overflow-y-auto">
 		<app-classrooms-bar />
 	</div>
 </div>
