@@ -5,6 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SubjectService } from '../../../services/subject.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-classroom-edit',
@@ -31,21 +32,29 @@ export class ClassroomEdit implements OnInit {
 	private titleService = inject(Title);
 	private classroomService = inject(ClassroomService);
 	private subjectService = inject(SubjectService);
+	private router = inject(Router);
 
 	ngOnInit() {
 		this.isLoading = true;
 
-		this.classroomService.show(parseInt(this.id)).subscribe((resp) => {
-			this.classroom = resp.body;
-			this.titleService.setTitle(`Uredi učionicu '${this.classroom?.name}' | Anthea`);
-			this.updateForm.setValue({ name: resp.body.name,  subjectId: resp.body.subjectId })
+		this.classroomService.show(parseInt(this.id)).subscribe({
+			next: (resp) => {
+				this.classroom = resp.body;
+				this.titleService.setTitle(`Uredi učionicu '${this.classroom?.name}' | Anthea`);
+				this.updateForm.setValue({ name: resp.body.name,  subjectId: resp.body.subjectId })
+			
+				this.subjectService.index().subscribe((resp) => {
+					this.subjects = resp.body;
+				});
+		
+				this.isLoading = false;
+			},
+			error: err => {
+				if (err.status === 404) {
+					this.router.navigate(['**'], { skipLocationChange: true });
+				}
+			}
 		});
-
-		this.subjectService.index().subscribe((resp) => {
-			this.subjects = resp.body;
-		});
-
-		this.isLoading = false;
 	}
 
 	onSubmit() {

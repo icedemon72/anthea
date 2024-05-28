@@ -29,6 +29,10 @@ router.patch(
 	'/:department',
 	validateParams('department'),
 	validateDepartment,
+	AuthGuard([{
+		role: 'admin',
+		when: isAdmin
+	}]),
 	handleDepartmentUpdate
 );
 
@@ -36,6 +40,10 @@ router.patch(
 router.delete(
 	'/:department', 
 	validateParams('departemnt'),
+	AuthGuard([{
+		role: 'admin',
+		when: isAdmin
+	}]),
 	handleDepartmentDelete
 );
 

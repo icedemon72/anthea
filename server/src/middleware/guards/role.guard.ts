@@ -21,11 +21,15 @@ export const isStudent = async (req: Request) => {
 	return true;
 }
 
-export const isAdmin = async (req: Request, returnError: boolean = true) => {
+export const isAdmin = async (req: Request) => {
 	const userId: string = req.user!.id! as any;
 	const admin = await getAdminByUser(parseInt(userId), false);
 
 	if(!admin) return false;
 
 	return true;
+}
+
+export const isUserRequested = async (req: Request) => {
+	return req.user!.id! === req.params.user;
 }
