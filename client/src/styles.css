@@ -1,7 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 /*@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Radio+Canada+Big:ital,wght@0,400..700;1,400..700&family=Radio+Canada:ital,wght@0,300..700;1,300..700&display=swap');*/
 
-
 @font-face {
 	font-family: "Radio Canada";
 	src: url("./assets/fonts/RadioCanada.ttf");
@@ -11,21 +10,40 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer utilities {
 	.text-muted {
-		@apply text-gray-400
+		@apply text-gray-400 dark:text-[#717171];
 	}
 	.gradient-anthea {
-		@apply bg-gradient-to-r from-anthea-400 to-anthea-600;
+		@apply bg-gradient-to-r from-anthea-400 to-anthea-600 dark:from-anthea-600 dark:to-anthea-800;
 	}
 
 	.gradient-anthea-inv {
 		@apply bg-gradient-to-r from-anthea-600 to-anthea-400;
 	}
+
+	.text-primary {
+		@apply text-black dark:text-white;
+	}
+
+	.text-label {
+		@apply text-gray-900 dark:text-gray-100;
+	}
+
+	.bg-primary {
+		@apply bg-primary-light dark:bg-primary-dark;
+	}
+
+	.bg-secondary {
+		@apply bg-secondary-light dark:bg-secondary-dark;
+	}
+
+	.bg-sidebar {
+		@apply bg-stone-50 dark:bg-stone-900;
+	}
 }
 
 body {
 	@apply bg-gray-100;
-	font-family: 'Radio Canada', sans-serif;
+	font-family: "Radio Canada", sans-serif;
 }

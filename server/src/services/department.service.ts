@@ -20,6 +20,15 @@ export const departmentShow = async(id: number) => {
 }
 
 export const departmentStore = async (data: any) => {
+	const alreadyExists = await prisma.department.findFirst({
+		where: {
+			name: data.name,
+			type: data.type
+		}
+	});
+
+	if(alreadyExists) throw newError(400, 'Već postoji odsek sa ovim imenom na studijskom programu');
+
 	const department = await prisma.department.create({
 		data
 	});

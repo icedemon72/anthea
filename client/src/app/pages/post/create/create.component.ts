@@ -3,6 +3,7 @@ import { ClassroomService } from '../../../services/classroom.service';
 import { PostService } from '../../../services/post.service';
 import { Classroom } from '../../../models/classroom';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-post-create',
@@ -26,6 +27,7 @@ export class PostCreate implements OnInit {
 
 	private postService = inject(PostService);
 	private classroomService = inject(ClassroomService);
+	private router = inject(Router);
 
 	ngOnInit(): void {
 		this.isLoading = true;
@@ -38,7 +40,11 @@ export class PostCreate implements OnInit {
 
 	onSubmit(): void {
 		const { title, body, type } = this.storeForm.value;
-		this.postService.store(this.classroom, title!, body!, type!).subscribe();
+		this.postService.store(this.classroom, title!, body!, type!).subscribe({
+			next: resp => {
+				this.router.navigate([`/classrooms/${this.classroom}/posts/${resp.body.id}`])
+			}
+		});
 	}
 
 }

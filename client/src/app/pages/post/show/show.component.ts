@@ -19,7 +19,7 @@ export class PostShow implements OnInit {
 	post?: Post;
 
 	private postService = inject(PostService);
-	private titleService = inject(Title)
+	private titleService = inject(Title);
 
 	ngOnInit(): void {
 		this.postService.show(this.classroom, this.id).subscribe({
