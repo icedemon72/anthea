@@ -1,5 +1,5 @@
 import {booleanAttribute, Component,  Input} from '@angular/core';
-import {  RouterLink } from '@angular/router';
+import {  RouterLink, RouterLinkActive } from '@angular/router';
 import {NgIcon} from "@ng-icons/core";
 
 @Component({
@@ -7,7 +7,8 @@ import {NgIcon} from "@ng-icons/core";
   standalone: true,
 	imports: [
 		NgIcon,
-		RouterLink
+		RouterLink,
+		RouterLinkActive
 	],
   templateUrl: './item.component.html',
 })

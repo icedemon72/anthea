@@ -14,7 +14,7 @@ export const loginUser = async (email: string, password: string, userAgent: stri
 	let matchingPass = await bcrypt.compare(password, user.password);
 	if (!matchingPass) throw { status: 401, message: 'Pogrešna email adresa ili lozinka' }
 
-	const roles = await getRoles(user.id);
+	const roles: string[] = await getRoles(user.id);
 	
 	const accessToken = jwt.sign({ id: user.id, email: user.email, roles },
 		process.env.AUTH_ACCESS_TOKEN_SECRET as string, { expiresIn: process.env.AUTH_ACCESS_TOKEN_EXPIRY });
@@ -95,7 +95,7 @@ export const refreshAccessToken = async (refreshToken: string, userAgent: string
 
 	if (!user) throw newError(404, 'Korisnik ne postoji!');
 	
-	let roles = getRoles(user.id);
+	const roles: string[] = await getRoles(user.id);
 
 	const accessToken = jwt.sign({ id: user.id, email: user.email, roles }, process.env.AUTH_ACCESS_TOKEN_SECRET as string, { expiresIn: process.env.AUTH_ACCESS_TOKEN_EXPIRY });
 

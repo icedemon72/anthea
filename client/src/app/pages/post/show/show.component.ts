@@ -30,7 +30,7 @@ export class PostShow implements OnInit {
 				this.titleService.setTitle(`${resp.body.title} | Anthea`);
 			},
 			error: err => {
-				if(err.status === 404) {
+				if(err.status === 404 || err.status === 403) {
 					this.router.navigate(['**'], { skipLocationChange: true });
 				}
 			}

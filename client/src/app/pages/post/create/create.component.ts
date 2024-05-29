@@ -4,6 +4,7 @@ import { PostService } from '../../../services/post.service';
 import { Classroom } from '../../../models/classroom';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-post-create',
@@ -32,9 +33,16 @@ export class PostCreate implements OnInit {
 	ngOnInit(): void {
 		this.isLoading = true;
 
-		this.classroomService.show(parseInt(this.classroom)).subscribe((resp) => {
-			this.classroomData = resp.body;
-			this.isLoading = false;
+		this.classroomService.show(parseInt(this.classroom)).subscribe({
+			next: (resp) => {
+				this.classroomData = resp.body;
+				this.isLoading = false;
+			},
+			error: (err: HttpErrorResponse) => {
+				if(err.status === 404 || err.status === 403) {
+					this.router.navigate(['**'], { skipLocationChange: true });
+				}
+			}
 		});
 	}
 

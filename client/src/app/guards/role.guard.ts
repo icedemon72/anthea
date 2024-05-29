@@ -15,7 +15,7 @@ export const RoleGuard: CanActivateFn = (
 	if(logged) {
 		if(hasPermissions(logged, allowed)) return true;
 			
-			router.navigateByUrl('not_found');
+			router.navigate(['**'], { skipLocationChange: true });
 			return false;
 	}
 	
@@ -30,11 +30,11 @@ const hasPermissions = (userRoles: Array<string>, requiredRoles: Array<string>) 
 	}
 
 	if (userRoles.includes('professor')) {
-		return requiredRoles.every(role => userRoles.includes(role) && role !== 'professor'); // Mod can't access admin roles
+		return requiredRoles.every(role => userRoles.includes(role) && role !== 'professor'); 
 	}
 	
 	if (userRoles.includes('student')) {
-		return requiredRoles.every(role => userRoles.includes(role) && role === 'student'); // User can only access user roles
+		return requiredRoles.every(role => userRoles.includes(role) && role === 'student');
 	}
 	
 	return false; 

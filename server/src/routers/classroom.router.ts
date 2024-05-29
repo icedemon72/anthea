@@ -45,6 +45,10 @@ router.patch(
 	'/:classroom', 
 	validateParams('classroom'), 
 	validateClassroomUpdate,
+	AuthGuard([{
+		role: 'professor',
+		when: isSuperProfessorInClassroom
+	}]),
 	handleClassroomUpdate
 );
 

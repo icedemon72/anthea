@@ -21,6 +21,7 @@ export class ClassroomShow implements OnInit {
 	classroom?: Classroom;
 	posts?: Post[];
 	isLoading?: boolean;
+	isSuccess: boolean = false;
 
 	private router = inject(Router);
 	private titleService = inject(Title);
@@ -38,6 +39,7 @@ export class ClassroomShow implements OnInit {
 				this.postService.index(resp.body.id).subscribe({
 					next: resp => {
 						this.posts = resp.body as Post[];
+						this.isSuccess = true;
 					}
 				});
 				

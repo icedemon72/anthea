@@ -6,7 +6,7 @@
 @else {
 <div class="flex flex-col gap-3">
 	@if(studentClassrooms.length) {
-		<div>
+		<div class="pr-2">
 			<p class="p-3 text-muted uppercase font-bold text-xs">Student</p>
 			<ul>
 				<app-item *ngFor="let classroom of studentClassrooms;" class="truncate" [name]="classroom.name" [link]="'/classrooms/'+classroom.id" />
@@ -15,7 +15,7 @@
 	}
 
 	@if(professorClassrooms.length) {
-		<div>
+		<div class="pr-2">
 			<p class="p-3 text-muted uppercase font-bold text-xs">Profesor</p>
 			<ul>
 				<app-item *ngFor="let classroom of professorClassrooms;" class="truncate" [name]="classroom.name" [link]="'/classrooms/'+classroom.id" />

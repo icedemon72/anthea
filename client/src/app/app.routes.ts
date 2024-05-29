@@ -39,6 +39,7 @@ export const routes: Routes = [
 		resolve: {
 			layout: setLayout(PageLayout.Guest)
 		},
+		title: '(404) Stranica ne postoji | Anthea',
 		component: PageNotFoundComponent
 	}
 ];

@@ -3,6 +3,8 @@ import { Department } from '../../../models/department';
 import { DepartmentService } from '../../../services/department.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-department-edit',
@@ -23,6 +25,7 @@ export class DepartmentEdit implements OnInit {
 		type: new FormControl(''),
 	}, Validators.required);
 
+	private router = inject(Router);
 	private titleService = inject(Title);
 	private departmentService = inject(DepartmentService);
 
@@ -30,21 +33,28 @@ export class DepartmentEdit implements OnInit {
 		this.isLoading = true;
 		this.isSuccess = true;
 
-		this.departmentService.show(parseInt(this.id)).subscribe((resp) => {
-			const { name, type } = resp.body as Department;
-
-			this.updateForm.setValue({
-				name, type
-			});
-
-			this.department = resp;
-			this.titleService.setTitle(`Uredi odsek '${name}' | Anthea`);
-			this.isSuccess = true;
-
-			this.updateForm.setValue({
-				name, type
-			});
-
+		this.departmentService.show(parseInt(this.id)).subscribe({
+			next: (resp) => {
+				const { name, type } = resp.body as Department;
+	
+				this.updateForm.setValue({
+					name, type
+				});
+	
+				this.department = resp;
+				this.titleService.setTitle(`Uredi odsek '${name}' | Anthea`);
+				this.isSuccess = true;
+	
+				this.updateForm.setValue({
+					name, type
+				});
+	
+			},
+			error: (err: HttpErrorResponse) => {
+				if(err.status === 404) {
+					this.router.navigate(['**'], { skipLocationChange: true });
+				}
+			}
 		});
 
 		this.isLoading = false;

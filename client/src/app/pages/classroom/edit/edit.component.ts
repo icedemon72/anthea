@@ -50,7 +50,7 @@ export class ClassroomEdit implements OnInit {
 				this.isLoading = false;
 			},
 			error: err => {
-				if (err.status === 404) {
+				if (err.status === 404 || err.status === 403) {
 					this.router.navigate(['**'], { skipLocationChange: true });
 				}
 			}

@@ -34,11 +34,11 @@ export const AuthGuard = (rolesWithCondition: TRoleWithCondition[], dynamicArgs?
 		try {
 			if (!req.user) return res.status(401).send(newError(401, 'Unauthorized'));
 
-			if(req.user.roles.includes('admin')) {
+			if(req?.user.roles.includes('admin')) {
 				const admin = await getAdminByUser(req.user!.id! as number, false);
 
 				if(admin) {
-					next();
+					return next();
 				}
 			}
 
@@ -61,6 +61,7 @@ export const AuthGuard = (rolesWithCondition: TRoleWithCondition[], dynamicArgs?
 			
 			next();
 		} catch (error) {
+			console.log(error);
 			return res.status(500).send(newError(500, 'Internal Server Error'));
 		}
 	};
