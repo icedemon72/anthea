@@ -35,9 +35,9 @@ export class SidebarComponent implements OnInit {
 		this.router.events.subscribe((event) => {
 			if (event instanceof NavigationStart) {
 				this.isClassroomOpen = false;
-      }
+			}
 		})
-			
+
 	}
 
 	handleClassroomOpen() {
