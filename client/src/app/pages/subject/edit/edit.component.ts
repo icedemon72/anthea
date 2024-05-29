@@ -5,6 +5,8 @@ import { Subject } from '../../../models/subject';
 import { SubjectService } from '../../../services/subject.service';
 import { DepartmentService } from '../../../services/department.service';
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-subject-edit',
@@ -29,6 +31,7 @@ export class SubjectEdit implements OnInit {
 		departmentId: new FormControl(''),
 	}, Validators.required);
 
+	private router = inject(Router);
 	private subjectService = inject(SubjectService);
 	private departmentService = inject(DepartmentService);
 
@@ -36,15 +39,22 @@ export class SubjectEdit implements OnInit {
 		this.isLoading = true;
 		this.isSuccess = false;
 
-		this.subjectService.show(this.id).subscribe((resp) => {
-			const { name, semester, departmentId } = resp.body;
-
-			this.subject = resp.body;
-
-			this.updateForm.setValue({
-				name, semester, departmentId
-			});
-
+		this.subjectService.show(this.id).subscribe({
+			next: (resp) => {
+				const { name, semester, departmentId } = resp.body;
+	
+				this.subject = resp.body;
+	
+				this.updateForm.setValue({
+					name, semester, departmentId
+				});
+	
+			},
+			error: (err: HttpErrorResponse) => {
+				if(err.status === 404 || err.status === 403) {
+					this.router.navigate(['**'], { skipLocationChange: true });
+				}
+			}
 		});
 
 		this.departmentService.index().subscribe(resp => {

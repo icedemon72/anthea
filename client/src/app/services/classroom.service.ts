@@ -61,4 +61,8 @@ export class ClassroomService {
 		{...this.options, observe: 'response' });
 	}
 
+	isUserIn(id: string): Observable<any> {
+		return this.http.get(`${this.urls.store}/`)
+	}
+
 }

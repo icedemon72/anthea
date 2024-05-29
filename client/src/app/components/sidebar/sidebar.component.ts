@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { NgIcon } from "@ng-icons/core";
 import { ItemComponent } from "./item/item.component";
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 import { TokenStorageService } from '../../services/token.service';
 import { CommonModule } from '@angular/common';
 import { ClassroomsBarComponent } from './classrooms-bar/classrooms-bar.component';
@@ -18,7 +18,8 @@ import { ClassroomsBarComponent } from './classrooms-bar/classrooms-bar.componen
 	],
 	templateUrl: './sidebar.component.html'
 })
-export class SidebarComponent {
+
+export class SidebarComponent implements OnInit {
 	isClassroomOpen: boolean = false;
 
 	private router = inject(Router);
@@ -29,6 +30,15 @@ export class SidebarComponent {
 	student: boolean = this.roles?.includes('student') as boolean;
 	professor: boolean = this.roles?.includes('professor') as boolean;
 	admin: boolean = this.roles?.includes('admin') as boolean;
+
+	ngOnInit(): void {
+		this.router.events.subscribe((event) => {
+			if (event instanceof NavigationStart) {
+				this.isClassroomOpen = false;
+			}
+		})
+
+	}
 
 	handleClassroomOpen() {
 		this.isClassroomOpen = !this.isClassroomOpen;
@@ -45,3 +55,4 @@ export class SidebarComponent {
 		this.authService.protected().subscribe();
 	}
 }
+

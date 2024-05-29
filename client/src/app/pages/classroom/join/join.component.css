@@ -5,5 +5,5 @@
 
 /* Apply tailwind class for angular code component for input fields */
 ::ng-deep .code-input-wrapper-class input {
-	@apply font-semibold !important
+	@apply font-semibold uppercase !important
 }
