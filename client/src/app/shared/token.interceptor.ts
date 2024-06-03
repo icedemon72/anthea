@@ -1,4 +1,4 @@
-import {inject, Injectable} from "@angular/core";
+import {inject, Injectable} from '@angular/core';
 import {
 	HTTP_INTERCEPTORS,
 	HttpErrorResponse,
@@ -7,11 +7,12 @@ import {
 	HttpInterceptor,
 	HttpRequest,
 	HttpResponse
-} from "@angular/common/http";
-import {BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError} from "rxjs";
-import {AuthService} from "../services/auth.service";
-import {TokenStorageService} from "../services/token.service";
-import { Router } from "@angular/router";
+} from '@angular/common/http';
+import { BehaviorSubject, catchError, filter, map, Observable, switchMap, take, throwError } from 'rxjs';
+import { AuthService } from '../services/auth.service';
+import { TokenStorageService } from '../services/token.service';
+import { Router } from '@angular/router';
+import { LoadingService } from '../services/loading.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -20,15 +21,17 @@ export class TokenInterceptor implements HttpInterceptor {
 	private refreshTokenSubject = new BehaviorSubject<any>(null);
 	private authService = inject(AuthService);
 	private tokenService = inject(TokenStorageService);
-
+	private loadingService = inject(LoadingService);
 	
 	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {	
+		this.loadingService.setLoading(true, request.url);
 		if(this.tokenService.getToken()) {
 			request = this.addToken(request, this.tokenService.getToken()!);
 		}
 
 		return next.handle(request).pipe(
 			catchError((error) => {
+				this.loadingService.setLoading(false, request.url);
 				if (error instanceof HttpErrorResponse && error.status == 401) {
 					return this.handle401Error(request, next);
 				} 
@@ -42,6 +45,12 @@ export class TokenInterceptor implements HttpInterceptor {
 				}
 			})
 		)
+		.pipe(map<HttpEvent<any>, any>((evt: HttpEvent<any>) => {
+			if (evt instanceof HttpResponse) {
+				this.loadingService.setLoading(false, request.url);
+			}
+			return evt;
+		}));
 	}
 
 	private addToken(request: HttpRequest<any>, token: string) {
@@ -75,7 +84,6 @@ export class TokenInterceptor implements HttpInterceptor {
 			)
 		}
 	}
-
 }
 
 export const tokenInterceptor = {

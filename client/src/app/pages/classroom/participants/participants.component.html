@@ -1,0 +1,39 @@
+<div class="w-full flex justify-center">
+	<div class="w-full sm:w-11/12 md:w-5/6 lg:w-2/3 xl:w-1/2">
+		<h1 class="text-lg text-muted font-bold uppercase border-b-2 dark:border-primary-dark border-primary-light py-2">Profesori</h1>
+		<div class="relative overflow-x-auto">
+			<table class="w-full text-sm text-left rtl:text-right text-secondary">
+				<tbody>
+					<tr *ngFor="let professor of professors" class="border-t first:border-0">
+						<td class="ps-4 py-4">
+							<div class="flex items-center gap-6">
+								<img class="w-8 h-8 rounded-full" src="assets/img/{{ professor.user.avatar }}" />
+								<p class="font-bold ">{{ professor.user.name }}</p>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="flex justify-between items-center text-muted border-b-2 dark:border-primary-dark border-primary-light py-2 mt-2">
+			<h1 class="text-lg font-bold uppercase">Studenti</h1>
+			<p clas="text-sm">{{ students.length }}</p>
+		</div>
+		<div class="relative overflow-x-auto">
+			<table class="w-full text-sm text-left rtl:text-right text-secondary">
+				<tbody>
+					<tr *ngFor="let student of students" class="border-t first:border-0">
+						<td class="ps-4 py-4">
+							<div class="flex items-center gap-6">
+								<img class="w-8 h-8 rounded-full" src="assets/img/{{ student.user.avatar }}" />
+								<p class="font-bold ">{{ student.user.name }}</p>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+</div>

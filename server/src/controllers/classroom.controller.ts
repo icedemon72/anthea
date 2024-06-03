@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { changeCode, classroomDelete, classroomIndex, classroomJoin, classroomJoined, classroomLeave, classroomProfessorJoin, classroomShow, classroomStore, classroomUpdate } from "../services/classroom.service";
 import { getProfessorByUser } from "../services/professor.service";
 import { getStudentByUser } from "../services/student.service";
+import { USER_SELECT } from "../../prisma/selects";
 
 // Admin should see this one, returns every classroom there is
 export const handleClassroomIndex = async (req: Request, res: Response) => {
@@ -18,7 +19,27 @@ export const handleClassroomShow = async (req: Request, res: Response) => {
 	try {
 		const { classroom } = req.params;
 
-		const resp = await classroomShow(parseInt(classroom));
+		let select: any = {};
+
+		if(req.query.participants) {
+			select.students = {
+				select: {
+					user: {
+						select: USER_SELECT
+					}
+				}
+			};
+
+			select.professors = {
+				select: {
+					user: {
+						select: USER_SELECT
+					}
+				}
+			}
+		}
+
+		const resp = await classroomShow(parseInt(classroom), select);
 		return res.send(resp);
 	} catch (e: any) {
 		return res.status(e.status || 500).send(e || 'Internal Server Error');
@@ -71,7 +92,7 @@ export const handleClassroomJoin = async (req: Request, res: Response) => {
 		const student = await getStudentByUser(req.user?.id! as number);
 
 		const resp = await classroomJoin(code, student!.id);
-		
+
 		return res.send(resp);
 	} catch (e: any) {
 		return res.status(e.status || 500).send(e || 'Internal Server Error');
@@ -93,10 +114,10 @@ export const handleClassroomProfessorsJoin = async (req: Request, res: Response)
 
 export const handleClassroomLeave = async (req: Request, res: Response) => {
 	try {
-		let { role } = req.body; 
+		let { role } = req.body;
 		const { classroom } = req.params;
 
-		if(!role) {
+		if (!role) {
 			role = 'student';
 		}
 
@@ -112,7 +133,7 @@ export const handleClassroomLeave = async (req: Request, res: Response) => {
 export const handleChangeCode = async (req: Request, res: Response) => {
 	try {
 		const { classroom } = req.params;
-		
+
 		const resp = await changeCode(parseInt(classroom));
 		return res.send(resp);
 	} catch (e: any) {
@@ -123,8 +144,26 @@ export const handleChangeCode = async (req: Request, res: Response) => {
 export const handleClassroomJoined = async (req: Request, res: Response) => {
 	try {
 		const user = parseInt(req.user!.id as string);
+		let all = false;
+		let select: any = {};
 
-		const resp = await classroomJoined(user);
+		if(req.query.all) {
+			all = true;
+			select.subject = {
+				select: {
+					id: true,
+					name: true,
+					department: {
+						select: {
+							id: true,
+							name: true
+						}
+					}
+				}
+			}
+		}
+
+		const resp = await classroomJoined(user, all, select);
 		return res.send(resp);
 	} catch (e: any) {
 		return res.status(e.status || 500).send(e || 'Internal Server Error');

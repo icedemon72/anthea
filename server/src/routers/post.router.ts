@@ -4,6 +4,7 @@ import { validatePostStore, validatePostUpdate } from '../validators/posts.valid
 import { validateParams } from '../validators/validator';
 import { AuthGuard } from '../middleware/routeGuard';
 import { isInClassroom, isProfessorInClassroom } from '../middleware/guards/classroom.guard';
+import { postUpload } from '../middleware/multer';
 
 const router = express.Router({mergeParams: true});
 
@@ -11,11 +12,12 @@ const router = express.Router({mergeParams: true});
 // TODO: more secured shit needs to be implemented here, files needs to be validated in controller
 router.post(
 	'/posts', 
-	validatePostStore,
+	// validatePostStore,
 	AuthGuard([{
 		role: 'professor',
 		when: isProfessorInClassroom
 	}]),
+	postUpload,
 	handlePostStore
 );
 

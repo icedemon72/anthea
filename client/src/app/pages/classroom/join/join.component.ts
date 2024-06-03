@@ -15,9 +15,8 @@ import { Router } from '@angular/router';
 	styleUrl: './join.component.css'
 })
 export class ClassroomJoin {
-	isLoading: boolean = false;
-	isSuccess: boolean = false;
 	errorMsg?: any;
+	isSuccess: boolean = false;
 	isError: boolean = false;
 
 	private classroomService = inject(ClassroomService);
@@ -27,9 +26,6 @@ export class ClassroomJoin {
 	// }, Validators.required);
 
 	onCodeCompleted(code: string) {
-		this.isLoading = true;
-
-
 		this.classroomService.join(code).subscribe({
 			next: (resp) => {
 				this.isError = false;
@@ -43,9 +39,6 @@ export class ClassroomJoin {
 				this.isError = true;
 				this.errorMsg = err.error.message;
 			},
-			complete: () => {
-				this.isLoading = false;
-			}
 		});
 	}
 

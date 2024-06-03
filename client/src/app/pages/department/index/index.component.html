@@ -1,0 +1,50 @@
+<div class="flex justify-between items-center mt-4 mb-6 uppercase">
+	<h1 class="text-2xl font-bold">Odseci</h1>
+	<div class="button-green flex items-center gap-1" routerLink="/admin/departments/create">
+		<ng-icon name="heroPlus" size="20px"/>
+		Dodaj odsek
+	</div>
+</div>
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+	<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+		<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+			<tr>
+				<th scope="col" class="px-6 py-3">
+					#
+				</th>
+				<th scope="col" class="px-6 py-3">
+					Naziv odseka
+				</th>
+				<th scope="col" class="px-6 py-3">
+					Studijski program
+				</th>
+				<th scope="col" class="px-6 py-3">
+					Akcije
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for (department of departments; track department; let  i = $index) {
+				<tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+					<th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+						{{ i + 1 }}
+					</th>
+					<td class="px-6 py-4">
+						{{ department.name }}
+					</td>
+					<td class="px-6 py-4">
+						{{ department.type }}
+					</td>
+					<td>
+						<a class="flex gap-2" routerLink="/admin/departments/{{ department.id }}/edit">
+							<ng-icon name="heroPencil" size="20px" />
+							<ng-icon name="heroTrash" size="20px" />
+						</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+

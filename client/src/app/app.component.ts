@@ -1,7 +1,6 @@
-import {Component, inject} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
-import {SidebarComponent} from "./components/sidebar/sidebar.component";
-import {NgIconComponent, provideIcons} from "@ng-icons/core";
+import { Component, inject, OnInit } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { NgIconComponent, provideIcons } from "@ng-icons/core";
 import {
 	heroHome,
 	heroArrowLeftStartOnRectangle,
@@ -15,21 +14,30 @@ import {
 	heroChartPie,
 	heroUserGroup,
 	heroBriefcase,
-	heroShieldCheck
+	heroShieldCheck,
+	heroBars3,
+	heroXMark,
+	heroPlus,
+	heroPencil,
+	heroTrash,
+	heroCog6Tooth,
+	heroCloudArrowUp,
 } from "@ng-icons/heroicons/outline";
+
 import { UserComponent } from './layouts/user/user.component';
 import { GuestComponent } from './layouts/guest/guest.component';
 import {AsyncPipe, NgSwitch, NgSwitchCase} from "@angular/common";
 import {PageLayout} from "./layouts/PageLayout";
 import {PageLayoutService} from "./layouts/page-layout.service";
 import { AdminComponent } from './layouts/admin/admin.component';
+import { LoadingService } from './services/loading.service';
+import { delay } from 'rxjs';
 
 @Component({
 	selector: 'app-root',
 	standalone: true,
 	imports: [RouterOutlet, UserComponent, GuestComponent, AdminComponent, NgIconComponent, NgSwitch, AsyncPipe, NgSwitchCase],
-	providers: [provideIcons(
-{
+	providers: [provideIcons({
 		heroHome,
 		heroArrowLeftStartOnRectangle,
 		heroUserCircle,
@@ -42,11 +50,34 @@ import { AdminComponent } from './layouts/admin/admin.component';
 		heroChartPie,
 		heroUserGroup,
 		heroBriefcase,
-		heroShieldCheck
+		heroShieldCheck,
+		heroBars3,
+		heroXMark,
+		heroPlus,
+		heroPencil,
+		heroTrash,
+		heroCog6Tooth,
+		heroCloudArrowUp
 	})],
 	templateUrl: './app.component.html',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+	loading: boolean = false;
+	
 	readonly PageLayout = PageLayout;
 	public pageLayoutService = inject(PageLayoutService);
+	private loadingService = inject(LoadingService);
+
+
+	ngOnInit(): void {
+		this.listenToLoading();
+	}
+
+	listenToLoading(): void {
+    this.loadingService.loadingSub
+      .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
+      .subscribe((loading) => {
+        this.loading = loading;
+      });
+  }
 }

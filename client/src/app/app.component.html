@@ -1,5 +1,5 @@
 <ng-container [ngSwitch]="pageLayoutService.layout$ | async">
-	<app-user *ngSwitchCase="PageLayout.User">
+	<app-user [loading]="loading" *ngSwitchCase="PageLayout.User">
 		<router-outlet />
 	</app-user>
 

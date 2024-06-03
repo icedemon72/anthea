@@ -14,21 +14,19 @@ import { ItemComponent } from '../item/item.component';
   templateUrl: './classrooms-bar.component.html'
 })
 export class ClassroomsBarComponent implements OnInit {
-	isLoading?: boolean;
 	studentClassrooms: Classroom[] = [];
 	professorClassrooms: Classroom[] = [];
 	private classroomService = inject(ClassroomService);
 
 	ngOnInit(): void {
-		this.isLoading = true;
-		
-		this.classroomService.joined().subscribe((resp) => {
-			resp.body.forEach((classroom: Classroom) => {
-				classroom.role === 'S' 
-					? this.studentClassrooms.push(classroom)
-					: this.professorClassrooms.push(classroom)
-			});
-			this.isLoading = false;
+		this.classroomService.joined().subscribe({
+			next: (resp) => {
+				resp.body.forEach((classroom: Classroom) => {
+					classroom.role === 'S' 
+						? this.studentClassrooms.push(classroom)
+						: this.professorClassrooms.push(classroom)
+				});
+			}
 		});
 	}
 

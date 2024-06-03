@@ -8,7 +8,7 @@ import {NgIcon} from "@ng-icons/core";
 	imports: [
 		NgIcon,
 		RouterLink,
-		RouterLinkActive
+		RouterLinkActive,
 	],
   templateUrl: './item.component.html',
 })
@@ -18,5 +18,4 @@ export class ItemComponent {
 	@Input() link?: string;
 	@Input() isLink: boolean = true;
 	@Input({transform: booleanAttribute}) active: boolean = false;
-
 }

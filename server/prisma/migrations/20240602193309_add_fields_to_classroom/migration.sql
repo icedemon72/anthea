@@ -1,0 +1,10 @@
+-- AlterTable
+ALTER TABLE `classrooms` ADD COLUMN `archived` BOOLEAN NOT NULL DEFAULT false,
+    ADD COLUMN `color` VARCHAR(191) NOT NULL DEFAULT '#842481',
+    ADD COLUMN `joinable` BOOLEAN NOT NULL DEFAULT true;
+
+-- AlterTable
+ALTER TABLE `files` ADD COLUMN `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3);
+
+-- AlterTable
+ALTER TABLE `posts` ALTER COLUMN `updated_at` DROP DEFAULT;

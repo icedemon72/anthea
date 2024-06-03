@@ -1,9 +1,5 @@
 <h1 class="p-3 text-lg text-center font-black text-anthea-800 dark:text-anthea-400">Moje učionice</h1>
 
-@if(isLoading) {
-<h1>Loading...</h1>
-}
-@else {
 <div class="flex flex-col gap-3">
 	@if(studentClassrooms.length) {
 		<div class="pr-2">
@@ -23,5 +19,3 @@
 		</div>
 	}
 </div>
-
-}

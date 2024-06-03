@@ -20,6 +20,7 @@ import { ClassroomsBarComponent } from './classrooms-bar/classrooms-bar.componen
 })
 
 export class SidebarComponent implements OnInit {
+	open: boolean = false;
 	isClassroomOpen: boolean = false;
 
 	private router = inject(Router);
@@ -35,24 +36,28 @@ export class SidebarComponent implements OnInit {
 		this.router.events.subscribe((event) => {
 			if (event instanceof NavigationStart) {
 				this.isClassroomOpen = false;
+				this.open = false;
 			}
-		})
-
+		});
 	}
 
-	handleClassroomOpen() {
+	handleClassroomOpen(): void {
 		this.isClassroomOpen = !this.isClassroomOpen;
 	}
 
-	logout() {
+	logout(): void {
 		this.authService.logout().subscribe({
 			next: () => this.router.navigateByUrl('/auth/login'),
 			error: () => this.router.navigateByUrl('/auth/login')
 		});
 	}
 
-	refreshTest() {
-		this.authService.protected().subscribe();
+	handleOpen(): void {
+		this.open = !this.open;
 	}
+
+	// refreshTest() {
+	// 	this.authService.protected().subscribe();
+	// }
 }
 

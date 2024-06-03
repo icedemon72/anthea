@@ -18,7 +18,6 @@ import { Router } from '@angular/router';
 
 export class ClassroomCreate implements OnInit {
 	subjects: any;
-	isLoading!: boolean;
 
 	private subjectService = inject(SubjectService);
 	private classroomService = inject(ClassroomService);
@@ -30,11 +29,9 @@ export class ClassroomCreate implements OnInit {
 	}, Validators.required);
 
 	ngOnInit() {
-		this.isLoading = true;
 		
 		this.subjectService.index().subscribe((resp) => {
 			this.subjects = resp.body as Subject[];
-			this.isLoading = false;
 
 			this.storeForm.patchValue({ subjectId: this.subjects[0].id });
 		});
