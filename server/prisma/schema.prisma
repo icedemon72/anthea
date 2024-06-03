@@ -64,7 +64,7 @@ model Student {
 model Session {
   id           Int      @id @default(autoincrement())
   userId       Int      @map("user_id")
-  refreshToken String   @db.Text @map("refresh_token")
+  refreshToken String   @map("refresh_token") @db.Text
   userAgent    String   @map("user_agent")
   active       Boolean  @default(true)
   createdAt    DateTime @default(now()) @map("created_at")
@@ -103,6 +103,9 @@ model Classroom {
   createdAt DateTime @default(now()) @map("created_at")
   createdBy Int      @map("created_by")
   code      String   @db.VarChar(6)
+	joinable  Boolean  @default(true)
+	archived  Boolean  @default(false)
+  color     String   @default("#842481")
 
   posts      Post[]
   students   Student[]
@@ -119,7 +122,7 @@ model Post {
   title       String   @db.VarChar(255)
   body        String?  @db.MediumText
   createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @default(now()) @map("updated_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
   classroomId Int      @map("classsroom_id")
   professorId Int      @map("professor_id")
 
@@ -131,10 +134,11 @@ model Post {
 }
 
 model File {
-  id       Int    @id @default(autoincrement())
-  path     String
-  original String
-  postId   Int    @map("post_id")
+  id        Int      @id @default(autoincrement())
+  path      String
+  original  String
+  postId    Int      @map("post_id")
+  createdAt DateTime @default(now()) @map("created_at")
 
   post Post @relation(fields: [postId], references: [id])
 

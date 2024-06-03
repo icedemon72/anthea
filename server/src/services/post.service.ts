@@ -13,6 +13,9 @@ export const postClassroomIndex = async (id: number) => {
 		where: {
 			classroomId: id,
 		},
+		orderBy: {
+			createdAt: 'desc'
+		},
 		include: {
 			...POST_INCLUDE
 		}

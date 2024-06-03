@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
 })
 export class DepartmentEdit implements OnInit {
 	@Input() id = '';
-	department?: Department;
+	department!: Department;
 	isLoading?: boolean;
 	isSuccess?: boolean;
 	
@@ -36,10 +36,6 @@ export class DepartmentEdit implements OnInit {
 		this.departmentService.show(parseInt(this.id)).subscribe({
 			next: (resp) => {
 				const { name, type } = resp.body as Department;
-	
-				this.updateForm.setValue({
-					name, type
-				});
 	
 				this.department = resp;
 				this.titleService.setTitle(`Uredi odsek '${name}' | Anthea`);

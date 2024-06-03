@@ -23,8 +23,8 @@ export class SubjectService {
 
 	store(name: string, semester: number, departmentId: number): Observable<any> {
 		return this.http.post(this.urls.store,
-			{ name, semester, departmentId, ...this.options },
-			{ observe: 'response' }
+			{ name, semester, departmentId },
+			{  ...this.options, observe: 'response' }
 		);
 	}
 

@@ -3,7 +3,7 @@ import prisma from "../../prisma/client";
 import { newError } from "../utils";
 import { getStudentByUser } from "./student.service";
 import { getProfessorByUser } from "./professor.service";
-import { CLASSROOM_SELECT } from '../../prisma/selects';
+import { CLASSROOM_SELECT, USER_SELECT } from '../../prisma/selects';
 
 // Admin
 export const classroomIndex = async () => {
@@ -12,12 +12,13 @@ export const classroomIndex = async () => {
 	return classrooms;
 }
 
-export const classroomShow = async (id: number) => {
+export const classroomShow = async (id: number, select: any = {}) => {
 	const classroom = await prisma.classroom.findFirst({
 		where: {
 			id
 		},	
 		select: {
+			...select,
 			...CLASSROOM_SELECT,
 		}
 	});
@@ -58,9 +59,6 @@ export const classroomStore = async (data: any, professorId: number) => {
 }
 
 export const classroomUpdate = async (data: any, id: number) => {
-	// Middleware needs to be added here, only admin and the professor
-	// that created the classroom should have the access 
-
 	const classroom = await prisma.classroom.update({
 		where: {
 			id
@@ -227,7 +225,7 @@ export const changeCode = async (id: number) => {
 	return classroom;
 }
 
-export const classroomJoined = async (id: number) => {
+export const classroomJoined = async (id: number, all: boolean = false, select: any = {}) => {
 	let student = await getStudentByUser(id, false);
 	let professor = await getProfessorByUser(id, false);
 
@@ -251,6 +249,15 @@ export const classroomJoined = async (id: number) => {
 			]
 		},
 		select: {
+			...select,
+			professor: {
+				select: {
+					id: true,
+					user: {
+						select: USER_SELECT
+					}
+				}
+			},
 			professors: true,
 			students: true,
 			...CLASSROOM_SELECT
@@ -266,7 +273,7 @@ export const classroomJoined = async (id: number) => {
 
     // If the professor is found in the classroom, add isProfessor: true to the classroom object
     if (isProfessorInClassroom) {
-			classroom.role = 'P';
+			classroom.role = (classroom.professor.id === professor?.id && all) ? 'SP' : 'P';
     } else {
 			classroom.role = 'S';
 		}

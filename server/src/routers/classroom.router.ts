@@ -2,9 +2,9 @@ import express from 'express';
 import { handleChangeCode, handleClassroomDelete, handleClassroomIndex, handleClassroomJoin, handleClassroomJoined, handleClassroomLeave, handleClassroomProfessorsJoin, handleClassroomShow, handleClassroomStore, handleClassroomUpdate } from '../controllers/classroom.controller';
 import { validateParams } from '../validators/validator';
 import { validateClassroomJoin, validateClassroomLeave, validateClassroomStore, validateClassroomUpdate, validateProfessorJoin } from '../validators/classroom.validator';
-import { auth, AuthGuard } from '../middleware/routeGuard';
+import { AuthGuard } from '../middleware/routeGuard';
 import { isInClassroom, isProfessorInClassroom, isSuperProfessorInClassroom } from '../middleware/guards/classroom.guard';
-import { isProfessor } from '../middleware/guards/role.guard';
+import { isAdmin, isProfessor } from '../middleware/guards/role.guard';
 
 const router = express.Router({mergeParams: true});
 
@@ -22,8 +22,8 @@ router.post('/',
 router.get(
 	'/',
 	AuthGuard([{
-		role: '*',
-		when: isInClassroom
+		role: 'admin',
+		when: isAdmin
 	}]),
 	handleClassroomIndex
 );

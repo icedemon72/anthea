@@ -11,10 +11,9 @@ import { Department } from '../models/department';
 export class DepartmentService {
 	constructor(private http: HttpClient) { }
 
-	private apiUrl = API_URL;
 	private storageService = inject(TokenStorageService);
 	private urls = {
-		store: `${this.apiUrl}/departments`,
+		store: `${API_URL}/departments`,
 	}
 	
 	private options = {

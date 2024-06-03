@@ -7,7 +7,10 @@ export interface Classroom {
 	createdAt: string;
 	createdBy: number;
 	code: string;
-	role?: string; // P or S
+	role?: string; // SP, P or S
+	color: string;
+	joinable: boolean;
+	archived: boolean;
 
 	posts?: any[];
 	students?: any[];

@@ -15,6 +15,7 @@ export class UserService {
 
 	private urls = {
 		profile: `${this.apiUrl}/users/profile`,
+		professors: `${this.apiUrl}/users/professors`
 	}
 
 	private options = {
@@ -27,9 +28,9 @@ export class UserService {
 		);
 	}
 
-
-
-
-
-
+	professorIndex(): Observable<any> {
+		return this.http.get(this.urls.professors, 
+			{ ...this.options, observe: 'response' }
+		);
+	}
 }

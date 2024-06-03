@@ -3,15 +3,15 @@
 		<h1 class="text-2xl font-black">Novi predmet</h1>
 		<div class="mt-5">
 			<label for="name" class="block mb-2 text-sm font-medium text-label">Naziv predmeta</label>
-			<input type="text" id="name" formControlName="name" name="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-royal-blue-500 focus:border-royal-blue-500 block w-full p-2.5" placeholder="Web programiranje" required />
+			<input type="text" id="name" formControlName="name" name="name" class="bg-secondary input-primary block w-full p-2.5" placeholder="Web programiranje" required />
 		</div>
 		<div class="mt-5">
 			<label for="name" class="block mb-2 text-sm font-medium text-label">Semestar</label>
-			<input type="number" id="semester" formControlName="semester" name="semester" min="1" max="16" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-royal-blue-500 focus:border-royal-blue-500 block w-full p-2.5" placeholder="1" required />
+			<input type="number" id="semester" formControlName="semester" name="semester" min="1" max="16" class="bg-secondary input-primary block w-full p-2.5" placeholder="1" required />
 		</div>
 		<div class="mt-5">
 			<label for="departmentId" class="block mb-2 text-sm font-medium text-label">Odsek</label>
-			<select name="departmentId" id="departmentId" formControlName="departmentId" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg active:ring-royal-blue-500 active:border-royal-blue-500 focus:ring-royal-blue-500 focus:border-royal-blue-500 block w-full p-2.5 cursor-pointer" aria-label="Tip studija">
+			<select name="departmentId" id="departmentId" formControlName="departmentId" class="bg-secondary input-primary block w-full p-2.5 cursor-pointer" aria-label="Tip studija">
 				<option *ngFor="let department of departments;" [ngValue]="department.id">
 					{{ department.name }}
 				</option>

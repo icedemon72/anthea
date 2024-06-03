@@ -12,7 +12,9 @@ export const subjectStore = async (data: any) => {
 		where: {
 			name: data.name,
 			department: {
-				is: data.departmentId
+				is: {
+					id: data.departmentId
+				}
 			}
 		}
 	});

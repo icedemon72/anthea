@@ -1,0 +1,6 @@
+<div class="flex gap-2 items-center bg-secondary p-2 rounded-lg text-sm">
+	<img src="assets/icons/{{ image }}" alt="File icon" class="w-5 h-5" />
+	<p>{{ file.name }}</p>
+	<p>{{ file.size / 1024 / 1024 | number: '1.0-2' }} MB</p>
+	<ng-icon class="hover:bg-primary rounded-full cursor-pointer dark:text-red-700 text-red-500" strokeWidth="3px" name="heroXMark" (click)="onDelete()" />
+</div>

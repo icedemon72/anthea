@@ -1,1 +1,62 @@
-<p>home works!</p>
+<!-- TODO: add professor avatar and name where it should be... and light mode support -->
+<div class="flex flex-col gap-2">
+	@if(superProfClassrooms.length) {
+		<h1 class="text-lg text-muted font-bold uppercase">Moje učionice ({{ superProfClassrooms.length }})</h1>
+		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+			<div *ngFor="let classroom of superProfClassrooms" class="col-span-1 flex flex-col  bg-primary rounded-lg shadow-md min-h-52 h-full overflow-hidden">
+				<div class="relative">
+					<div class="absolute right-1 top-1 flex justify-center items-center w-10 h-10 rounded-full font-black cursor-pointer hover:bg-anthea-900 transition-all select-none">&#8942;</div>
+					<div routerLink="/classrooms/{{ classroom.id }}" class="p-2 truncate hover:cursor-pointer" [style.background]="classroom.color">
+						<h1 class="font-bold text-lg hover:underline">{{ classroom.name }}</h1>
+						<div class="text-secondary">
+							<p class="text-sm">{{ classroom.subject!.name }}</p>
+							<p class="text-sm">{{ classroom.subject!.department!.name }}</p>
+						</div>
+					</div>
+				</div>
+				<div class="flex flex-1 items-end justify-end gap-2 p-4">
+					<ng-icon routerLink="/classrooms/{{ classroom.id }}/posts/create" class="cursor-pointer rounded-full hover:bg-secondary transition-all" name="heroPlus" size="24px" />
+					<ng-icon routerLink="/classrooms/{{ classroom.id }}/participants" class="cursor-pointer rounded-full hover:bg-secondary transition-all" name="heroUserGroup" size="24px" />
+					<ng-icon class="cursor-pointer rounded-full hover:bg-secondary transition-all" name="heroCog6Tooth" size="24px" />
+				</div>
+			</div>
+		</div>
+	}	
+	@if(professorClassrooms.length) {
+		<h1 class="text-lg text-muted font-bold uppercase">Profesor  ({{ professorClassrooms.length }})</h1>
+		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+			<div *ngFor="let classroom of professorClassrooms" class="col-span-1 flex flex-col bg-primary rounded-lg shadow-md min-h-52 h-full overflow-hidden">
+				<div class="relative">
+					<div class="absolute right-1 top-1 flex justify-center items-center w-10 h-10 rounded-full font-black cursor-pointer hover:bg-anthea-900 transition-all select-none">&#8942;</div>
+					<div routerLink="/classrooms/{{ classroom.id }}"  class="p-2 truncate overflow-hidden hover:cursor-pointer" [style.background]="classroom.color">
+						<h1 class="font-bold text-lg hover:underline">{{ classroom.name }}</h1>
+						<p class="text-secondary text-sm">{{ classroom.subject!.name }}</p>
+						<p class="text-secondary text-sm">{{ classroom.subject!.department!.name }}</p>
+					</div>
+				</div>
+				<div class="flex flex-1 items-end justify-end gap-2 p-4">
+					<ng-icon routerLink="/classrooms/{{ classroom.id }}/posts/create" class="cursor-pointer rounded-full hover:bg-secondary transition-all" name="heroPlus" size="24px"/>
+					<ng-icon routerLink="/classrooms/{{ classroom.id }}/participants" class="cursor-pointer rounded-full hover:bg-secondary transition-all" name="heroUserGroup" size="24px"/>
+				</div>
+			</div>
+		</div>
+	}
+
+	@if(studentClassrooms.length) {
+		<h1 class="text-lg text-muted font-bold uppercase">Student ({{ studentClassrooms.length }})</h1>
+		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+			<div *ngFor="let classroom of studentClassrooms" class="col-span-1 flex flex-col bg-primary rounded-lg shadow-md min-h-52 h-full overflow-hidden">
+				<div class="relative">
+					<div class="absolute right-1 top-1 flex justify-center items-center w-10 h-10 rounded-full font-black cursor-pointer hover:bg-anthea-900 transition-all select-none">&#8942;</div>
+					<div routerLink="/classrooms/{{ classroom.id }}"  class="p-2 truncate overflow-hidden hover:cursor-pointer" [style.background]="classroom.color">
+						<h1 class="font-bold text-lg hover:underline">{{ classroom.name }}</h1>
+						<p class="text-secondary text-sm">{{ classroom.subject!.name }}</p>
+					</div>
+				</div>
+				<div class="flex flex-1 items-end justify-end gap-2 p-4">
+					<ng-icon routerLink="/classrooms/{{ classroom.id }}/participants" class="cursor-pointer rounded-full hover:bg-secondary transition-all" name="heroUserGroup" size="24px"/>
+				</div>
+			</div>
+		</div>	
+	}
+</div>

@@ -13,6 +13,10 @@ app.use(requestLogger);
 
 const PORT = process.env.PORT || 1337;
 
+// app.use(function(req,res,next){
+//   setTimeout(next, 3000)
+// });
+
 app.listen(PORT, () => {
 	console.log(`Server running on port: ${PORT}`);
 });

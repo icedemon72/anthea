@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
 export class PostShow implements OnInit {
 	@Input() classroom = '';
 	@Input() id = '';
-	post?: Post;
+	post!: Post;
 
 	private router = inject(Router);
 	private postService = inject(PostService);

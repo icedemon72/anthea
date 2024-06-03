@@ -23,6 +23,12 @@ export class ClassroomService {
 		headers: new HttpHeaders({ 'Authorization': `Bearer ${this.storageService.getToken()}` })
 	}
 
+	index(): Observable<any> {
+		return this.http.get(this.urls.store, {
+			...this.options, observe: 'response'
+		});
+	}
+
 	store(name: string, subjectId: number): Observable<any> {
 		return this.http.post(this.urls.store,
 			// change professors to represent id of professors that are in the classrooooom
@@ -38,9 +44,9 @@ export class ClassroomService {
 		);
 	}
 
-	show(id: number): Observable<any> {
+	show(id: number, params: any = {}): Observable<any> {
 		return this.http.get(`${this.urls.store}/${id}`, {
-			...this.options, observe: 'response'
+			...this.options, observe: 'response', params
 		});
 	}
 
@@ -56,9 +62,9 @@ export class ClassroomService {
 			{ ...this.options, observe: 'response' });
 	}
 
-	joined(): Observable<any> {
+	joined(params: any = {}): Observable<any> {
 		return this.http.get(`${this.urls.joined}`, 
-		{...this.options, observe: 'response' });
+		{ ...this.options, observe: 'response', params });
 	}
 
 	isUserIn(id: string): Observable<any> {

@@ -22,7 +22,6 @@ export class ClassroomEdit implements OnInit {
 	@Input() id = '';
 	classroom?: Classroom;
 	subjects: any;
-	isLoading?: boolean;
 
 	updateForm = new FormGroup({
 		name: new FormControl(''),
@@ -35,8 +34,6 @@ export class ClassroomEdit implements OnInit {
 	private router = inject(Router);
 
 	ngOnInit() {
-		this.isLoading = true;
-
 		this.classroomService.show(parseInt(this.id)).subscribe({
 			next: (resp) => {
 				this.classroom = resp.body;
@@ -46,8 +43,6 @@ export class ClassroomEdit implements OnInit {
 				this.subjectService.index().subscribe((resp) => {
 					this.subjects = resp.body;
 				});
-		
-				this.isLoading = false;
 			},
 			error: err => {
 				if (err.status === 404 || err.status === 403) {

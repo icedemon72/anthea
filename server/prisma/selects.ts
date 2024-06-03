@@ -13,7 +13,8 @@ export const CLASSROOM_SELECT = {
 	name: true,
 	subjectId: true,
 	createdAt: true,
-	createdBy: true
+	createdBy: true,
+	color: true
 }
 
 export const POST_INCLUDE = {
@@ -22,6 +23,7 @@ export const POST_INCLUDE = {
 			user: {
 				select: {
 					name: true,
+					avatar: true
 				}
 			}
 		}				

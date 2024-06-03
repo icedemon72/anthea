@@ -72,11 +72,10 @@ export class AuthService {
 			headers: new HttpHeaders({'Authorization': `Bearer ${accessToken}`})
 		}
 		
-		return this.http.post(this.urls.logout, {
-			...options,
-			refreshToken,
-			observe: 'response',
-		}).pipe(
+		return this.http.post(this.urls.logout, 
+			{...options, refreshToken},
+			{ observe: 'response' }
+		).pipe(
 			tap(() => {
 				this.storageService.signOut();
 				this.user.next(null);
