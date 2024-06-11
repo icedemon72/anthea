@@ -53,6 +53,14 @@
 	.button-green {
 		@apply bg-green-400 hover:bg-green-500 dark:bg-green-700 dark:hover:bg-green-800 transition-all rounded-lg p-2 cursor-pointer;
 	}
+
+	.thead-primary {
+		@apply text-xs text-muted uppercase dark:bg-black bg-gray-50;
+	}
+
+	.tr-primary {
+		@apply bg-primary border-b dark:border-gray-700;
+	}
 }
 
 body {

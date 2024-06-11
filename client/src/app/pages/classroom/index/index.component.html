@@ -1,1 +1,13 @@
-<p>index works!</p>
+<div class="flex justify-between items-center mt-4 mb-6 uppercase">
+	<h1 class="text-2xl font-bold">Učionice</h1>
+</div>
+
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+	<app-table 
+		[head]="['Naziv', 'ID predmeta', 'Kod', 'Kreirao/la', 'Arhivirana']" 
+		[values]="classrooms"
+		[keys]="['name', 'subjectId', 'code', 'createdBy', 'archived']"
+		[actions]="true"
+		editLink="/classrooms/"
+	/>
+</div> 

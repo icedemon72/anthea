@@ -39,7 +39,7 @@ export const postShow = async (id: number) => {
 	return post;
 }
 
-export const postStore = async (data: any, classroom: number, professor: number) => {
+export const postStore = async (data: any, files: any, classroom: number, professor: number) => {
 	const post = await prisma.post.create({
 		data: {
 			type: data.type,
@@ -57,14 +57,20 @@ export const postStore = async (data: any, classroom: number, professor: number)
 					id: professor
 				}
 			},
-
-			// files: { TODO: IMPLEMENT THIS
-			// 	create: {
-					
-			// 	}
-			// }
+			
+			files: {
+				create: files.map((file: any) => ({
+					path: file.path,
+					filename: file.filename,
+					originalname: file.originalname,
+					mimetype: file.mimetype,
+					destination: file.destination,
+					size: file.size
+				}))
+			}
 		},
 	});
+
 
 	return post;
 }

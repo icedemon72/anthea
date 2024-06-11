@@ -17,10 +17,9 @@ export class UploadComponent implements OnInit {
 	@Input() id!: number;
 	@Input() file!: File;
 	@Output() deleted: EventEmitter<boolean> = new EventEmitter();
-	image: string = "_blank.png";
+	image: string = '_blank.png';
 
 	ngOnInit(): void {
-		console.log(this.file.type);
 		this.image = getIconsFromMIME(this.file.type);
 	}
 

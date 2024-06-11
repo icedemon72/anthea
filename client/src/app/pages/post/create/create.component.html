@@ -22,6 +22,7 @@
 				<option value="file">Za arhivu</option>
 			</select>
 		</div>
+		
 		@if(storeForm.value.type === 'announcement') {
 			<p class="text-xs text-muted pl-2 mt-1"><span class="text-anthea-400 dark:text-anthea-700">*</span> Datoteke koje su otpremljene u objavi koja je označena kao obaveštenje <span class="font-bold underline">NE IDU</span> u arhivu</p>
 		}
@@ -44,5 +45,14 @@
 		<div class="mt-8">
 			<button type="submit" class="p-2 w-full gradient-anthea hover:text-anthea-950 rounded-lg  transition-all active:scale-95">Dodaj objavu</button>
 		</div>
+
+		@if(uploadInProgress || progress === 100) {
+			<div class="w-full h-[24px] bg-slate-400 mt-5 rounded-lg bg-secondary overflow-hidden shadow transition-all">
+				<div class="gradient-anthea h-full transition-all text-center" [ngStyle]="{'width.%': progress}">
+					<p class="font-bold">{{ progress }}%</p>
+				</div>
+			</div>
+		}
 	</form>
+
 </div>

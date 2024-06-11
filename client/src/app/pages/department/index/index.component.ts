@@ -4,6 +4,7 @@ import { DepartmentService } from '../../../services/department.service';
 import { CommonModule } from '@angular/common';
 import { NgIcon } from '@ng-icons/core';
 import { RouterLink } from '@angular/router';
+import { TableComponent } from '../../../components/table/table.component';
 
 @Component({
   selector: 'app-department-index',
@@ -11,7 +12,8 @@ import { RouterLink } from '@angular/router';
   imports: [
 		CommonModule,
 		NgIcon,
-		RouterLink
+		RouterLink,
+		TableComponent
 	],
   templateUrl: './index.component.html'
 })

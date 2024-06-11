@@ -3,13 +3,15 @@ import { Subject } from '../../../models/subject';
 import { SubjectService } from '../../../services/subject.service';
 import { NgIcon } from '@ng-icons/core';
 import { RouterLink } from '@angular/router';
+import { TableComponent } from '../../../components/table/table.component';
 
 @Component({
   selector: 'app-subject-index',
   standalone: true,
   imports: [
 		RouterLink,
-		NgIcon
+		NgIcon,
+		TableComponent
 	],
   templateUrl: './index.component.html'
 })

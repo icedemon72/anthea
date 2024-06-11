@@ -4,11 +4,11 @@ import { PostService } from '../../../services/post.service';
 import { Classroom } from '../../../models/classroom';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
-import isEqual from 'lodash.isequal';
+import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
 import { NgIcon } from '@ng-icons/core';
-import { DecimalPipe } from '@angular/common';
+import { DecimalPipe, NgStyle } from '@angular/common';
 import { UploadComponent } from '../../../components/file/upload/upload.component';
+import { catchError, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-post-create',
@@ -17,6 +17,7 @@ import { UploadComponent } from '../../../components/file/upload/upload.componen
 		ReactiveFormsModule,
 		NgIcon,
 		DecimalPipe,
+		NgStyle,
 		UploadComponent
 	],
   templateUrl: './create.component.html'
@@ -27,6 +28,8 @@ export class PostCreate implements OnInit {
 	isLoading?: boolean;
 	classroomData?: Classroom;
 	selectedFiles: any = [];
+	uploadInProgress: boolean = false;
+	progress: number = 0;
 
 	storeForm = new FormGroup({
 		title: new FormControl(''),
@@ -57,23 +60,8 @@ export class PostCreate implements OnInit {
 
 	onFileSelected(event: any): void {
 		for(let i = 0; i < event.target.files.length; i++) {
-			let file = event.target.files[i];
-
-			let alreadyIn: boolean = false;
-			
-			for(let j = 0; j < this.selectedFiles.length; j++) {
-
-				if(isEqual(this.selectedFiles[j], file)) {
-					alreadyIn = true;
-					break;
-				}
-			}
-
-			if(!alreadyIn) {
-				this.selectedFiles.push(file);
-			}
-
-			this.storeForm.patchValue({ files: this.selectedFiles });
+			let file = event.target.files[i];	
+			this.selectedFiles.push(file);
 		}
   }
 
@@ -84,14 +72,45 @@ export class PostCreate implements OnInit {
 	}
 
 	onSubmit(): void {
-		const { title, body, type, files } = this.storeForm.value;
-		// const formData: any = this.storeForm.value;
-	
-		this.postService.store(this.classroom, title!, body!, type!, files).subscribe({
-			next: resp => {
-				this.router.navigate([`/classrooms/${this.classroom}/posts/${resp.body.id}`])
+		const { title, body, type } = this.storeForm.value;
+		
+		if(type !== 'text') {
+			const formData = new FormData();
+			formData.append('title', title!);
+			formData.append('body', body!);
+			formData.append('type', type!);
+			
+			for (let i = 0; i < this.selectedFiles.length!; i++) {
+				formData.append(`files[]`, this.selectedFiles[i]);
 			}
-		});
+	
+			this.uploadInProgress = true;
+			this.postService.storeUpload(this.classroom, formData).pipe(  
+				map(event => {  
+					switch (event.type) {  
+						case HttpEventType.UploadProgress:  
+							this.progress = Math.round(event.loaded * 100 / event.total);  
+							break;  
+						case HttpEventType.Response:  
+							return event;  
+					}  
+				}),  
+				catchError((error: HttpErrorResponse) => {  
+					this.uploadInProgress = false;
+					return of(`Upload failed.`);  
+				})).subscribe((event: any) => {  
+					if (typeof (event) === 'object') {  
+						this.router.navigate([`/classrooms/${this.classroom}/posts/${event.body.id}`])
+					}  
+				});
+		}
+		else {
+			this.postService.store(this.classroom, title!, body!, type!).subscribe({
+				next: resp => {
+					this.router.navigate([`/classrooms/${this.classroom}/posts/${resp.body.id}`])
+				}
+			});
+		}
 	}
 
 }

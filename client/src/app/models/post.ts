@@ -1,4 +1,5 @@
 import { Classroom } from "./classroom";
+import { File } from "./file";
 
 export interface Post {
 	id: number;
@@ -11,6 +12,6 @@ export interface Post {
 	updatedAt: string;
 	
 	professor?: any;
-	files?: any;
+	files?: File[];
 	classroom?: Classroom;
 }

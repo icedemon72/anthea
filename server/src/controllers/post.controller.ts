@@ -40,11 +40,21 @@ export const handlePostStore = async (req: Request, res: Response) => {
 	try {
 		const { classroom } = req.params;
 		const data = req.body;
-		const professor = await getProfessorByUser(req.user!.id as number);
-		console.log(req.files);
-		// const resp = await postStore(data, parseInt(classroom), professor!.id);
+		let files: any = [];
 
-		return res.send(req.files);
+		if(req.files) {
+			files = req.files;
+		}
+
+		if(req.body.type === 'text') {
+			files = [];
+		}
+
+		const professor = await getProfessorByUser(req.user!.id as number);
+
+		const resp = await postStore(data, files!, parseInt(classroom), professor!.id);
+
+		return res.send(resp);
 	} catch (e: any) {
 		return res.status(e.status || 500).send(e || 'Internal Server Error');
 	}

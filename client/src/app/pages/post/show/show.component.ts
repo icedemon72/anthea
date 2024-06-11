@@ -4,12 +4,14 @@ import { PostService } from '../../../services/post.service';
 import { Post } from '../../../models/post';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { PostComponent } from '../../../components/file/post/post.component';
 
 @Component({
   selector: 'app-post-show',
   standalone: true,
   imports: [
-		CommonModule
+		CommonModule,
+		PostComponent
 	],
   templateUrl: './show.component.html'
 })

@@ -22,6 +22,9 @@ import {
 	heroTrash,
 	heroCog6Tooth,
 	heroCloudArrowUp,
+	heroMegaphone,
+	heroChatBubbleBottomCenter,
+	heroDocumentDuplicate,
 } from "@ng-icons/heroicons/outline";
 
 import { UserComponent } from './layouts/user/user.component';
@@ -57,7 +60,10 @@ import { delay } from 'rxjs';
 		heroPencil,
 		heroTrash,
 		heroCog6Tooth,
-		heroCloudArrowUp
+		heroCloudArrowUp,
+		heroMegaphone,
+		heroChatBubbleBottomCenter,
+		heroDocumentDuplicate
 	})],
 	templateUrl: './app.component.html',
 })

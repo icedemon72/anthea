@@ -14,8 +14,13 @@
 		<div class="py-2">
 			{{ post.body }}
 		</div>
-		<div class="pt-2">
-			Fajlovi idu ovde...
+
+		<div class="mt-2 grid grid-cols-2 gap-2">
+			@for(file of post.files; track $index) {
+				<div class="col-span-2 md:col-span-1 w-full bg-secondary rounded-lg p-2">
+					<app-file-post [file]="file" />
+				</div>
+			}
 		</div>
 	</div>
 </div>

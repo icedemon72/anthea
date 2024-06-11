@@ -5,3 +5,13 @@
 		Dodaj predmet
 	</div>
 </div>
+
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+	<app-table 
+		[head]="['Naziv', 'Semestar', 'ID odseka']" 
+		[values]="subjects"
+		[keys]="['name', 'semester', 'departmentId']"
+		[actions]="true"
+		editLink="/admin/subjects/"
+	/>
+</div> 

@@ -1,0 +1,46 @@
+<table class="w-full text-sm text-left rtl:text-right">
+	<thead class="thead-primary">
+		<tr>
+			@if(index) {
+				<th scope="col" class="px-6 py-3">#</th>
+			}
+			@for(th of head; track th) {
+				<th scope="col" class="px-6 py-3">{{ th }}</th>
+			}
+			@if(actions) {
+				<th scope="col" class="px-6 py-3">Akcije</th>
+			}
+		</tr>
+	</thead>
+	<tbody>
+		@for(value of values; track value; let  i = $index) {
+			<tr>
+				@if(index) {
+					<th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+						{{ i + 1 }}
+					</th>
+				}
+	
+				<!-- TODO: implement nested properties -->
+				@for(key of keys; track key) {
+					<td class="px-6 py-4">
+						{{ value[key] }}
+					</td>
+				}
+	
+				@if(actions) {
+					<td>
+						<div class="flex gap-2">
+							@if(editLink) {
+								<a [routerLink]="editLink + value.id +'/edit'" >
+									<ng-icon name="heroPencil" size="20px" />
+								</a>
+							}
+							<ng-icon name="heroTrash" size="20px" />
+						</div>
+					</td>
+				}
+			</tr>
+		}				
+	</tbody>
+</table>

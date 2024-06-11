@@ -27,5 +27,6 @@ export const POST_INCLUDE = {
 				}
 			}
 		}				
-	}
+	},
+	files: true
 }

@@ -61,7 +61,6 @@ export const AuthGuard = (rolesWithCondition: TRoleWithCondition[], dynamicArgs?
 			
 			next();
 		} catch (error) {
-			console.log(error);
 			return res.status(500).send(newError(500, 'Internal Server Error'));
 		}
 	};

@@ -103,8 +103,8 @@ model Classroom {
   createdAt DateTime @default(now()) @map("created_at")
   createdBy Int      @map("created_by")
   code      String   @db.VarChar(6)
-	joinable  Boolean  @default(true)
-	archived  Boolean  @default(false)
+  joinable  Boolean  @default(true)
+  archived  Boolean  @default(false)
   color     String   @default("#842481")
 
   posts      Post[]
@@ -134,11 +134,15 @@ model Post {
 }
 
 model File {
-  id        Int      @id @default(autoincrement())
-  path      String
-  original  String
-  postId    Int      @map("post_id")
-  createdAt DateTime @default(now()) @map("created_at")
+  id           Int      @id @default(autoincrement())
+  path         String
+  filename     String
+  originalname String   
+  mimetype     String
+  destination  String
+  size         Int
+  postId       Int      @map("post_id")
+  createdAt    DateTime @default(now()) @map("created_at")
 
   post Post @relation(fields: [postId], references: [id])
 

@@ -22,17 +22,21 @@ export class PostService {
 		show: `${this.apiUrl}/classrooms/[CLASSROOM]/posts/[POST]`,
 	}
 
-	store(id: string, title: string, body: string, type: string, files?: any): Observable<any> {
+	store(id: string, title: string, body: string, type: string): Observable<any> {
 		const url = this.urls.store.replace('[CLASSROOM]', id);
-		this.options.headers = this.options.headers.set('Content-Type', 'multipart/form-data');
-		
-		const requestBody = (type === 'text') 
-		? { title, body, type }
-		: { title, body, type, files }
-		
+
 		return this.http.post(url, 
-			requestBody,
+			{ title, body, type },
 			{ ...this.options, observe: 'response' }
+		)
+
+	}
+
+	storeUpload(id: string, formData: any): Observable<any> {
+		const url = this.urls.store.replace('[CLASSROOM]', id);
+				
+		return this.http.post(url, formData,
+			{ ...this.options, reportProgress: true,  observe: 'events' }
 		);
 	}
 
