@@ -1,4 +1,4 @@
-<ng-container [ngSwitch]="pageLayoutService.layout$ | async">
+<ng-container class="relative" [ngSwitch]="pageLayoutService.layout$ | async">
 	<app-user [loading]="loading" *ngSwitchCase="PageLayout.User">
 		<router-outlet />
 	</app-user>
@@ -10,4 +10,6 @@
 	<app-admin *ngSwitchCase="PageLayout.Admin">
 		<router-outlet />
 	</app-admin>
+
+	<app-toast></app-toast>
 </ng-container>

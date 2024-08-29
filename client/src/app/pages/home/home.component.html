@@ -1,5 +1,6 @@
 <!-- TODO: add professor avatar and name where it should be... and light mode support -->
 <div class="flex flex-col gap-2">
+	<app-toast message="This is a message"></app-toast>
 	@if(superProfClassrooms.length) {
 		<h1 class="text-lg text-muted font-bold uppercase">Moje učionice ({{ superProfClassrooms.length }})</h1>
 		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -21,7 +22,7 @@
 				</div>
 			</div>
 		</div>
-	}	
+	}
 	@if(professorClassrooms.length) {
 		<h1 class="text-lg text-muted font-bold uppercase">Profesor  ({{ professorClassrooms.length }})</h1>
 		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -57,6 +58,6 @@
 					<ng-icon routerLink="/classrooms/{{ classroom.id }}/participants" class="cursor-pointer rounded-full hover:bg-secondary transition-all" name="heroUserGroup" size="24px"/>
 				</div>
 			</div>
-		</div>	
+		</div>
 	}
 </div>

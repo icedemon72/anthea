@@ -4,6 +4,7 @@ import { DepartmentService } from '../../../services/department.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Department } from '../../../models/department';
 import { CommonModule } from '@angular/common';
+import {ToastService} from "../../../services/toast.service";
 
 @Component({
 	selector: 'app-create',
@@ -21,6 +22,7 @@ export class SubjectCreate implements OnInit {
 
 	private subjectService = inject(SubjectService);
 	private departmentService = inject(DepartmentService);
+	private toastService = inject(ToastService);
 
 	storeForm = new FormGroup({
 		name: new FormControl(''),
@@ -34,13 +36,20 @@ export class SubjectCreate implements OnInit {
 		this.departmentService.index().subscribe((resp) => {
 			this.departments = resp.body as Department[];
 			this.isLoading = false;
-		
+
 			this.storeForm.patchValue({ departmentId: this.departments[0].id });
 		});
 	}
 
 	onSubmit() {
 		const { name, semester, departmentId } = this.storeForm.value;
-		this.subjectService.store(name!, semester! as unknown as number, departmentId! as unknown as number).subscribe();
+		this.subjectService.store(name!, semester! as unknown as number, departmentId! as unknown as number).subscribe({
+			next: resp => {
+				this.toastService.addToast('Uspešno dodat predmet');
+			},
+			error: err => {
+				this.toastService.addToast(err, 'error');
+			}
+		});
 	}
 }

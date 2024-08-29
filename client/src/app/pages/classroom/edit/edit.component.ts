@@ -6,6 +6,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { SubjectService } from '../../../services/subject.service';
 import { Router } from '@angular/router';
+import {ToastService} from "../../../services/toast.service";
 
 @Component({
   selector: 'app-classroom-edit',
@@ -32,6 +33,7 @@ export class ClassroomEdit implements OnInit {
 	private classroomService = inject(ClassroomService);
 	private subjectService = inject(SubjectService);
 	private router = inject(Router);
+	private toastService = inject(ToastService);
 
 	ngOnInit() {
 		this.classroomService.show(parseInt(this.id)).subscribe({
@@ -39,7 +41,7 @@ export class ClassroomEdit implements OnInit {
 				this.classroom = resp.body;
 				this.titleService.setTitle(`Uredi učionicu '${this.classroom?.name}' | Anthea`);
 				this.updateForm.setValue({ name: resp.body.name,  subjectId: resp.body.subjectId })
-			
+
 				this.subjectService.index().subscribe((resp) => {
 					this.subjects = resp.body;
 				});
@@ -54,6 +56,13 @@ export class ClassroomEdit implements OnInit {
 
 	onSubmit() {
 		const { name, subjectId } = this.updateForm.value;
-		this.classroomService.update(this.classroom!.id.toString(), name!, parseInt(subjectId!)).subscribe();
+		this.classroomService.update(this.classroom!.id.toString(), name!, parseInt(subjectId!)).subscribe({
+			next: data => {
+				this.toastService.addToast(data.body.message);
+			},
+			error: err => {
+				this.toastService.addToast('Greška prilikom uređivanja', 'error');
+			}
+		});
 	}
 }

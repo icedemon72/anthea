@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { ClassroomService } from '../../../services/classroom.service';
 import { CodeInputModule } from 'angular-code-input';
 import { Router } from '@angular/router';
+import {ToastService} from "../../../services/toast.service";
 
 @Component({
 	selector: 'app-classroom-join',
@@ -21,6 +22,7 @@ export class ClassroomJoin {
 
 	private classroomService = inject(ClassroomService);
 	private router = inject(Router);
+	private toastService = inject(ToastService);
 	// joinForm = new FormGroup({
 	// 	code: new FormControl(''),
 	// }, Validators.required);
@@ -30,7 +32,7 @@ export class ClassroomJoin {
 			next: (resp) => {
 				this.isError = false;
 				this.isSuccess = true;
-
+				this.toastService.addToast('Uspešno ste se učlanili!');
 				setTimeout(() => {
 					this.router.navigate(['classrooms', resp.body.id]);
 				}, 2000)
@@ -38,6 +40,7 @@ export class ClassroomJoin {
 			error: (err) => {
 				this.isError = true;
 				this.errorMsg = err.error.message;
+				this.toastService.addToast(err.error.message, 'error');
 			},
 		});
 	}

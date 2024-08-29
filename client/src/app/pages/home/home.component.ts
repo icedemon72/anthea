@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Classroom } from '../../models/classroom';
 import { ClassroomService } from '../../services/classroom.service';
+import {ToastComponent} from "../../components/toast/toast.component";
 import { CommonModule } from '@angular/common';
 import { NgIcon } from '@ng-icons/core';
 import { RouterLink } from '@angular/router';
@@ -11,7 +12,8 @@ import { RouterLink } from '@angular/router';
 	imports: [
 		CommonModule,
 		NgIcon,
-		RouterLink
+		RouterLink,
+		ToastComponent
 	],
 	templateUrl: './home.component.html'
 })
@@ -27,9 +29,9 @@ export class HomeComponent implements OnInit {
 		this.classroomService.joined({ all: true }).subscribe({
 			next: (resp) => {
 				resp.body.forEach((classroom: Classroom) => {
-					classroom.role === 'S' 
+					classroom.role === 'S'
 						? this.studentClassrooms.push(classroom)
-						: classroom.role === 'P' 
+						: classroom.role === 'P'
 							? this.professorClassrooms.push(classroom)
 							: this.superProfClassrooms.push(classroom);
 				});

@@ -13,21 +13,21 @@ export const subjectStore = async (data: any) => {
 			name: data.name,
 			department: {
 				is: {
-					id: data.departmentId
+					id: parseInt(data.departmentId)
 				}
 			}
 		}
 	});
 
 	if(alreadyExists) throw newError(400, 'Predmet već postoji na ovom odseku');
-	
+
 	const subject = await prisma.subject.create({
 		data: {
 			name: data.name,
-			semester: data.semester,
+			semester: parseInt(data.semester),
 			department: {
 				connect: {
-					id: data.departmentId
+					id: parseInt(data.departmentId)
 				}
 			}
 		}

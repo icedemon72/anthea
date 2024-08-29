@@ -9,6 +9,7 @@ import { NgIcon } from '@ng-icons/core';
 import { DecimalPipe, NgStyle } from '@angular/common';
 import { UploadComponent } from '../../../components/file/upload/upload.component';
 import { catchError, map, of } from 'rxjs';
+import {ToastService} from "../../../services/toast.service";
 
 @Component({
   selector: 'app-post-create',
@@ -41,6 +42,7 @@ export class PostCreate implements OnInit {
 	private postService = inject(PostService);
 	private classroomService = inject(ClassroomService);
 	private router = inject(Router);
+	private toastService = inject(ToastService);
 
 	ngOnInit(): void {
 		this.isLoading = true;
@@ -60,7 +62,7 @@ export class PostCreate implements OnInit {
 
 	onFileSelected(event: any): void {
 		for(let i = 0; i < event.target.files.length; i++) {
-			let file = event.target.files[i];	
+			let file = event.target.files[i];
 			this.selectedFiles.push(file);
 		}
   }
@@ -73,41 +75,46 @@ export class PostCreate implements OnInit {
 
 	onSubmit(): void {
 		const { title, body, type } = this.storeForm.value;
-		
+
 		if(type !== 'text') {
 			const formData = new FormData();
 			formData.append('title', title!);
 			formData.append('body', body!);
 			formData.append('type', type!);
-			
+
 			for (let i = 0; i < this.selectedFiles.length!; i++) {
 				formData.append(`files[]`, this.selectedFiles[i]);
 			}
-	
+
 			this.uploadInProgress = true;
-			this.postService.storeUpload(this.classroom, formData).pipe(  
-				map(event => {  
-					switch (event.type) {  
-						case HttpEventType.UploadProgress:  
-							this.progress = Math.round(event.loaded * 100 / event.total);  
-							break;  
-						case HttpEventType.Response:  
-							return event;  
-					}  
-				}),  
-				catchError((error: HttpErrorResponse) => {  
+			this.postService.storeUpload(this.classroom, formData).pipe(
+				map(event => {
+					switch (event.type) {
+						case HttpEventType.UploadProgress:
+							this.progress = Math.round(event.loaded * 100 / event.total);
+							break;
+						case HttpEventType.Response:
+							return event;
+					}
+				}),
+				catchError((error: HttpErrorResponse) => {
 					this.uploadInProgress = false;
-					return of(`Upload failed.`);  
-				})).subscribe((event: any) => {  
-					if (typeof (event) === 'object') {  
+					this.toastService.addToast('Greška pri otpremanju datoteka');
+					return of(`Upload failed.`);
+				})).subscribe((event: any) => {
+					if (typeof (event) === 'object') {
 						this.router.navigate([`/classrooms/${this.classroom}/posts/${event.body.id}`])
-					}  
+					}
 				});
 		}
 		else {
 			this.postService.store(this.classroom, title!, body!, type!).subscribe({
 				next: resp => {
+					this.toastService.addToast('Uspešno dodata objava');
 					this.router.navigate([`/classrooms/${this.classroom}/posts/${resp.body.id}`])
+				},
+				error: (err) => {
+					this.toastService.addToast(err, 'error');
 				}
 			});
 		}

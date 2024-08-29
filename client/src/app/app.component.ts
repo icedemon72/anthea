@@ -5,8 +5,8 @@ import {
 	heroHome,
 	heroArrowLeftStartOnRectangle,
 	heroUserCircle,
-	heroSquaresPlus, 
-	heroSquares2x2, 
+	heroSquaresPlus,
+	heroSquares2x2,
 	heroArchiveBox,
 	heroBuildingLibrary,
 	heroAcademicCap,
@@ -35,11 +35,13 @@ import {PageLayoutService} from "./layouts/page-layout.service";
 import { AdminComponent } from './layouts/admin/admin.component';
 import { LoadingService } from './services/loading.service';
 import { delay } from 'rxjs';
+import {ToastComponent} from "./components/toast/toast.component";
+import {ToastService} from "./services/toast.service";
 
 @Component({
 	selector: 'app-root',
 	standalone: true,
-	imports: [RouterOutlet, UserComponent, GuestComponent, AdminComponent, NgIconComponent, NgSwitch, AsyncPipe, NgSwitchCase],
+	imports: [RouterOutlet, UserComponent, GuestComponent, AdminComponent, NgIconComponent, NgSwitch, AsyncPipe, NgSwitchCase, ToastComponent],
 	providers: [provideIcons({
 		heroHome,
 		heroArrowLeftStartOnRectangle,
@@ -64,12 +66,13 @@ import { delay } from 'rxjs';
 		heroMegaphone,
 		heroChatBubbleBottomCenter,
 		heroDocumentDuplicate
-	})],
+	}),
+	ToastService],
 	templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
 	loading: boolean = false;
-	
+
 	readonly PageLayout = PageLayout;
 	public pageLayoutService = inject(PageLayoutService);
 	private loadingService = inject(LoadingService);
